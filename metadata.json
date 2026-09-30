@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Cambodia Student ID Card Generator \u0026 Batch Printer",
+  "description": "Production-ready system to create, manage, and batch-print standardized Cambodian High School Student ID Cards (ប័ណ្ណសម្គាល់ខ្លួនសិស្ស) on A4 sheets with cutting guidelines, Khmer typography, and Supabase integration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

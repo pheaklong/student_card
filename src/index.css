@@ -1,0 +1,178 @@
+@import "tailwindcss";
+
+:root {
+  --font-khmer-muol: "Moul", "Khmer OS Muol Light", "Khmer OS Muol", "Moul Pali", "DaunPenh", "Khmer UI", serif;
+  --font-khmer-body: "Kantumruy Pro", "Kantumruy", "Khmer OS Siemreap", "Khmer OS Battambang", "Khmer OS", "Siemreap", "Leelawadee UI", "Khmer UI", sans-serif;
+  --font-khmer-siemreap: "Siemreap", "Khmer OS Siemreap", "Khmer OS Battambang", "Khmer OS", "Kantumruy Pro", "Leelawadee UI", "Khmer UI", sans-serif;
+}
+
+.font-muol {
+  font-family: var(--font-khmer-muol) !important;
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased !important;
+  font-synthesis: none !important;
+}
+
+.font-kantumruy {
+  font-family: var(--font-khmer-body) !important;
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased !important;
+  font-synthesis: none !important;
+}
+
+.font-siemreap {
+  font-family: var(--font-khmer-siemreap) !important;
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased !important;
+  font-synthesis: none !important;
+}
+
+/* Ensure all card elements default to genuine Khmer typography with OpenType HarfBuzz ligatures */
+.card-print-container,
+.print-sheet-page {
+  font-family: var(--font-khmer-body);
+  text-rendering: optimizeLegibility !important;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1 !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+.card-print-container .font-muol,
+.print-sheet-page .font-muol {
+  font-family: var(--font-khmer-muol) !important;
+}
+
+.card-print-container .font-kantumruy,
+.print-sheet-page .font-kantumruy {
+  font-family: var(--font-khmer-body) !important;
+}
+
+.card-print-container .font-siemreap,
+.print-sheet-page .font-siemreap {
+  font-family: var(--font-khmer-siemreap) !important;
+}
+
+/* Card cut lines and printing */
+@media screen {
+  .preview-cut-guide {
+    background-image: repeating-linear-gradient(0deg, #d1d5db, #d1d5db 4px, transparent 4px, transparent 8px),
+                      repeating-linear-gradient(90deg, #d1d5db, #d1d5db 4px, transparent 4px, transparent 8px),
+                      repeating-linear-gradient(180deg, #d1d5db, #d1d5db 4px, transparent 4px, transparent 8px),
+                      repeating-linear-gradient(270deg, #d1d5db, #d1d5db 4px, transparent 4px, transparent 8px);
+    background-size: 1px 100%, 100% 1px, 1px 100%, 100% 1px;
+    background-position: 0 0, 0 0, 100% 0, 0 100%;
+    background-repeat: no-repeat;
+  }
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0 !important;
+  }
+
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    text-rendering: optimizeLegibility !important;
+  }
+
+  .font-muol {
+    font-family: "Moul", "Khmer OS Muol Light", "Khmer OS Muol", "Moul Pali", "DaunPenh", serif !important;
+  }
+
+  .font-kantumruy {
+    font-family: "Kantumruy Pro", "Kantumruy", "Khmer OS Siemreap", "Khmer OS Battambang", "Khmer OS", "Siemreap", "Leelawadee UI", "Khmer UI", sans-serif !important;
+  }
+
+  .font-siemreap {
+    font-family: "Siemreap", "Khmer OS Siemreap", "Khmer OS Battambang", "Khmer OS", "Kantumruy Pro", "Leelawadee UI", "Khmer UI", sans-serif !important;
+  }
+
+  html, body {
+    width: 210mm !important;
+    height: auto !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  #root {
+    width: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    width: 210mm !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .print-page-break {
+    width: 210mm !important;
+    height: 297mm !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    overflow: hidden !important;
+  }
+
+  .print-page-break:last-child {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .card-print-container {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Dedicated PVC Hard Card Print Mode Overrides */
+  body.pvc-print-mode {
+    width: auto !important;
+    height: auto !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body.pvc-print-mode #root,
+  body.pvc-print-mode main {
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body.pvc-print-mode .pvc-card-page {
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.pvc-print-mode .pvc-card-page:last-child {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+}
