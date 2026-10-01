@@ -1029,15 +1029,23 @@ export const StudentCard: React.FC<StudentCardProps> = ({
                   }}
                   onMouseDown={(e) => handleStartDrag(e, 'photo', cfg.photoOffsetX || 0, cfg.photoOffsetY || 0)}
                   onTouchStart={(e) => handleStartDrag(e, 'photo', cfg.photoOffsetX || 0, cfg.photoOffsetY || 0)}
-                  className={`rounded-xl border-[1.5px] bg-slate-50/90 overflow-hidden flex flex-col items-center justify-center relative shadow-2xs transition-all ${
+                  className={`overflow-hidden flex flex-col items-center justify-center relative transition-all ${
+                    student.photo_url
+                      ? 'rounded-xl border-[1.5px] bg-slate-50/90 shadow-2xs'
+                      : 'rounded-[2px] border-[0.5px] border-dashed border-slate-300 bg-white/60'
+                  } ${
                     activeHighlightElement === 'photo'
                       ? 'ring-2 ring-blue-500 cursor-grab active:cursor-grabbing pointer-events-auto'
                       : onSelectElement ? 'hover:outline-1 hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
                   }`}
                   style={{
-                    width: `${cfg.photoWidthMm || 27}mm`,
-                    height: `${cfg.photoHeightMm || 36}mm`,
-                    borderColor: cfg.photoBorderColor || '#60a5fa',
+                    width: student.photo_url
+                      ? `${cfg.photoWidthMm || 27}mm`
+                      : `${Math.min(cfg.photoWidthMm ? cfg.photoWidthMm - 11 : 16, 16)}mm`,
+                    height: student.photo_url
+                      ? `${cfg.photoHeightMm || 36}mm`
+                      : `${Math.min(cfg.photoHeightMm ? cfg.photoHeightMm - 15 : 21, 21)}mm`,
+                    borderColor: student.photo_url ? (cfg.photoBorderColor || '#60a5fa') : '#94a3b8',
                     zIndex: cfg.photoZIndex ?? 20,
                     transform: `translate(${cfg.photoOffsetX || 0}px, ${cfg.photoOffsetY || 0}px)`,
                   }}
@@ -1062,16 +1070,19 @@ export const StudentCard: React.FC<StudentCardProps> = ({
                     />
                   ) : (
                     <div
-                      className="flex flex-col items-center justify-center text-slate-400 py-2 select-none pointer-events-none transition-transform"
+                      className="flex flex-col items-center justify-center text-slate-400 p-0.5 select-none pointer-events-none transition-transform"
                       style={{
                         transform: `scale(${cfg.photoZoom || 1})`,
                         transformOrigin: 'center center',
                       }}
                     >
-                      <svg className="w-10 h-10 text-slate-400 fill-slate-300" viewBox="0 0 24 24">
-                        <path fillRule="evenodd" d="M12 2a5 5 0 100 10 5 5 0 000-10zm-7 18a7 7 0 0114 0H5z" clipRule="evenodd" />
+                      <svg className="w-3 h-3 text-slate-400 mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
                       </svg>
-                      <span className="font-muol text-[11px] text-slate-700 mt-1">រូបថត</span>
+                      <span className="font-kantumruy text-[6.5px] font-semibold text-slate-400 tracking-tight leading-none">
+                        3 x 4
+                      </span>
                     </div>
                   )}
                 </div>
@@ -1847,16 +1858,24 @@ export const StudentCard: React.FC<StudentCardProps> = ({
                 onClick={() => onSelectElement?.('photo')}
                 onMouseDown={(e) => handleStartDrag(e, 'photo', cfg.photoOffsetX || 0, cfg.photoOffsetY || 0)}
                 onTouchStart={(e) => handleStartDrag(e, 'photo', cfg.photoOffsetX || 0, cfg.photoOffsetY || 0)}
-                className={`border bg-neutral-100 overflow-hidden shadow-xs relative flex items-center justify-center shrink-0 transition-all ${getPhotoShapeClass()} ${
+                className={`overflow-hidden shadow-xs relative flex items-center justify-center shrink-0 transition-all ${
+                  student.photo_url
+                    ? `border bg-neutral-100 ${getPhotoShapeClass()}`
+                    : 'rounded-[2px] border-[0.5px] border-dashed border-slate-300 bg-white/60'
+                } ${
                   activeHighlightElement === 'photo'
                     ? 'ring-2 ring-blue-500 ring-offset-1 cursor-grab active:cursor-grabbing pointer-events-auto'
                     : onSelectElement ? 'hover:outline-1 hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
                 }`}
                 style={{
-                  width: `${cfg.photoWidthMm || (isLandscape ? 24 : 23)}mm`,
-                  height: `${cfg.photoHeightMm || 31}mm`,
+                  width: student.photo_url
+                    ? `${cfg.photoWidthMm || (isLandscape ? 24 : 23)}mm`
+                    : `${Math.min(cfg.photoWidthMm ? cfg.photoWidthMm - 7 : 16, 16)}mm`,
+                  height: student.photo_url
+                    ? `${cfg.photoHeightMm || 31}mm`
+                    : `${Math.min(cfg.photoHeightMm ? cfg.photoHeightMm - 10 : 21, 21)}mm`,
                   transform: `translate(${cfg.photoOffsetX || 0}px, ${cfg.photoOffsetY || 0}px)`,
-                  borderColor: cfg.photoBorderColor || '#9ca3af',
+                  borderColor: student.photo_url ? (cfg.photoBorderColor || '#9ca3af') : '#94a3b8',
                   zIndex: cfg.photoZIndex ?? 20,
                   position: 'relative',
                 }}
@@ -1880,7 +1899,15 @@ export const StudentCard: React.FC<StudentCardProps> = ({
                     }}
                   />
                 ) : (
-                  <DefaultStudentAvatar gender={student.gender} />
+                  <div className="flex flex-col items-center justify-center text-slate-400 p-0.5 select-none pointer-events-none">
+                    <svg className="w-3 h-3 text-slate-400 mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
+                    </svg>
+                    <span className="font-kantumruy text-[6.5px] font-semibold text-slate-400 tracking-tight leading-none">
+                      3 x 4
+                    </span>
+                  </div>
                 )}
               </div>
 
