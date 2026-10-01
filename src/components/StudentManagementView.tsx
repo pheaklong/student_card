@@ -730,21 +730,21 @@ export const StudentManagementView: React.FC<StudentManagementViewProps> = ({
                         <p className="text-neutral-400">{st.mother_name || '-'}</p>
 
                         {/* Parent Phone */}
-                        {(st.parent_phone || st.phone_number) && (
+                        {st.parent_phone && (
                           <div className="mt-1.5 flex items-center gap-1 flex-wrap">
                             <span className="text-[10px] text-emerald-800 font-semibold">អាណាព្យាបាល:</span>
                             <span className="font-mono font-bold text-[10px] text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
-                              {formatPhoneNumber(st.parent_phone || st.phone_number)}
+                              {formatPhoneNumber(st.parent_phone)}
                             </span>
                             <a
-                              href={`tel:${cleanPhoneNumber(st.parent_phone || st.phone_number)}`}
+                              href={`tel:${cleanPhoneNumber(st.parent_phone)}`}
                               title="ហៅទូរស័ព្ទអាណាព្យាបាល (Call Now)"
                               className="p-1 bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white rounded border border-emerald-200 transition-colors"
                             >
                               <PhoneCall className="w-3 h-3" />
                             </a>
                             <a
-                              href={getTelegramUrl(st.parent_phone || st.phone_number)}
+                              href={getTelegramUrl(st.parent_phone)}
                               target="_blank"
                               rel="noreferrer"
                               title="[ផ្ញើសារ Telegram ទៅអាណាព្យាបាល]"
@@ -753,7 +753,7 @@ export const StudentManagementView: React.FC<StudentManagementViewProps> = ({
                               <Send className="w-3 h-3" />
                             </a>
                             <a
-                              href={`sms:${cleanPhoneNumber(st.parent_phone || st.phone_number)}`}
+                              href={`sms:${cleanPhoneNumber(st.parent_phone)}`}
                               title="ផ្ញើសារ SMS ទៅអាណាព្យាបាល"
                               className="p-1 bg-neutral-50 hover:bg-neutral-600 text-neutral-700 hover:text-white rounded border border-neutral-200 transition-colors"
                             >
@@ -1046,19 +1046,19 @@ export const StudentManagementView: React.FC<StudentManagementViewProps> = ({
 
             {/* Quick Contact Bar in Preview Modal: Both Parent & Student Personal Phone */}
             <div className="w-full mt-3 space-y-2 text-xs font-kantumruy">
-              {(previewStudent.parent_phone || previewStudent.phone_number) && (
+              {previewStudent.parent_phone && (
                 <div className="p-3 bg-linear-to-r from-emerald-50 via-teal-50 to-sky-50 border border-emerald-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 shadow-2xs">
                   <div>
                     <span className="text-[10px] text-emerald-800 font-bold block uppercase tracking-wide">
                       លេខទូរស័ព្ទអាណាព្យាបាល៖
                     </span>
                     <span className="text-base font-black font-mono text-emerald-900">
-                      {formatPhoneNumber(previewStudent.parent_phone || previewStudent.phone_number)}
+                      {formatPhoneNumber(previewStudent.parent_phone)}
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <a
-                      href={`tel:${cleanPhoneNumber(previewStudent.parent_phone || previewStudent.phone_number)}`}
+                      href={`tel:${cleanPhoneNumber(previewStudent.parent_phone)}`}
                       className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold shadow-2xs transition-all active:scale-98"
                       title="ហៅទូរស័ព្ទអាណាព្យាបាល (Call Now)"
                     >
@@ -1066,7 +1066,7 @@ export const StudentManagementView: React.FC<StudentManagementViewProps> = ({
                       <span>ហៅទូរស័ព្ទ (Call Now)</span>
                     </a>
                     <a
-                      href={getTelegramUrl(previewStudent.parent_phone || previewStudent.phone_number)}
+                      href={getTelegramUrl(previewStudent.parent_phone)}
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-sky-500 hover:bg-sky-600 text-white rounded-lg font-bold shadow-2xs transition-all active:scale-98"
@@ -1076,7 +1076,7 @@ export const StudentManagementView: React.FC<StudentManagementViewProps> = ({
                       <span>[ផ្ញើសារ Telegram]</span>
                     </a>
                     <a
-                      href={`sms:${cleanPhoneNumber(previewStudent.parent_phone || previewStudent.phone_number)}`}
+                      href={`sms:${cleanPhoneNumber(previewStudent.parent_phone)}`}
                       className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-neutral-50 text-neutral-800 border border-neutral-300 rounded-lg font-bold shadow-2xs transition-all active:scale-98"
                       title="ផ្ញើសារ SMS ទៅអាណាព្យាបាល"
                     >

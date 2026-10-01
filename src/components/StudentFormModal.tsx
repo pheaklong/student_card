@@ -124,8 +124,8 @@ export const StudentFormModal: React.FC<StudentFormModalProps> = ({
       father_name: formData.father_name?.trim() || '',
       mother_name: formData.mother_name?.trim() || '',
       student_phone: formatPhoneNumber(formData.student_phone),
-      parent_phone: formatPhoneNumber(formData.parent_phone || formData.phone_number),
-      phone_number: formatPhoneNumber(formData.parent_phone || formData.phone_number || formData.student_phone),
+      parent_phone: formatPhoneNumber(formData.parent_phone),
+      phone_number: formatPhoneNumber(formData.student_phone || formData.parent_phone || formData.phone_number),
       blood_type: formData.blood_type?.trim() || '',
       expiry_date: formData.expiry_date?.trim() || '',
       photo_url: formData.photo_url || previewPhoto || '',
@@ -369,32 +369,16 @@ export const StudentFormModal: React.FC<StudentFormModalProps> = ({
                 className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-xs focus:ring-2 focus:ring-blue-500 focus:outline-hidden"
               />
             </div>
-
-            <div>
-              <label className="block font-medium text-neutral-700 mb-1">
-                លេខទូរស័ព្ទអាណាព្យាបាល (Parent Phone)
-                <span className="text-[10px] text-emerald-600 font-semibold ml-1.5">★ បង្ហាញលើ Digital Card</span>
-              </label>
-              <input
-                type="text"
-                value={formData.parent_phone || formData.phone_number || ''}
-                onChange={(e) => setFormData({ ...formData, parent_phone: e.target.value, phone_number: e.target.value })}
-                onBlur={(e) => {
-                  const formatted = formatPhoneNumber(e.target.value);
-                  setFormData({ ...formData, parent_phone: formatted, phone_number: formatted });
-                }}
-                placeholder="095 858 545 ឬ 012 345 678"
-                className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-xs font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
-              />
-            </div>
           </div>
 
-          {/* Student Personal Phone */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {/* 📞 Contact Numbers: Student Phone & Parent Phone clearly distinguished */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-neutral-50/70 p-3.5 rounded-xl border border-neutral-200">
             <div>
-              <label className="block font-medium text-neutral-700 mb-1">
-                លេខទូរស័ព្ទផ្ទាល់ខ្លួនសិស្ស (Student Personal Phone)
-                <span className="text-[10px] text-blue-600 font-semibold ml-1.5">★ លេខផ្ទាល់</span>
+              <label className="block font-semibold text-neutral-800 mb-1 text-xs">
+                <span>លេខទូរស័ព្ទសិស្ស (Student Phone)</span>
+                <span className="text-[10px] text-blue-600 font-bold ml-1.5 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">
+                  ★ បង្ហាញលើប័ណ្ណសិស្ស (Card)
+                </span>
               </label>
               <input
                 type="text"
@@ -405,12 +389,30 @@ export const StudentFormModal: React.FC<StudentFormModalProps> = ({
                   setFormData({ ...formData, student_phone: formatted });
                 }}
                 placeholder="098 776 543 ឬ 097 123 456"
-                className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-xs font-mono focus:ring-2 focus:ring-blue-500 focus:outline-hidden"
+                className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-xs font-mono font-medium text-blue-900 bg-white focus:ring-2 focus:ring-blue-500 focus:outline-hidden"
               />
+              <p className="text-[10px] text-neutral-500 mt-1">លេខទូរស័ព្ទផ្ទាល់របស់សិស្ស នឹងត្រូវបោះពុម្ពលើប័ណ្ណ</p>
             </div>
 
-            <div className="flex items-center text-[11px] text-neutral-500 pt-5">
-              <span>💡 លេខទូរស័ព្ទនឹងត្រូវបំពេញលេខ <strong>0</strong> នៅខាងមុខស្វ័យប្រវត្តិតាមស្ដង់ដារកម្ពុជា។</span>
+            <div>
+              <label className="block font-semibold text-neutral-800 mb-1 text-xs">
+                <span>លេខទូរស័ព្ទអាណាព្យាបាល (Parent Phone)</span>
+                <span className="text-[10px] text-emerald-700 font-bold ml-1.5 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+                  ★ បង្ហាញលើ Digital Card
+                </span>
+              </label>
+              <input
+                type="text"
+                value={formData.parent_phone || ''}
+                onChange={(e) => setFormData({ ...formData, parent_phone: e.target.value })}
+                onBlur={(e) => {
+                  const formatted = formatPhoneNumber(e.target.value);
+                  setFormData({ ...formData, parent_phone: formatted });
+                }}
+                placeholder="095 858 545 ឬ 012 345 678"
+                className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-xs font-mono font-medium text-emerald-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+              />
+              <p className="text-[10px] text-neutral-500 mt-1">សម្រាប់ទាក់ទងបន្ទាន់ និងផ្ទៀងផ្ទាត់លើ Digital Card</p>
             </div>
           </div>
 

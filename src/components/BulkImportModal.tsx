@@ -334,18 +334,54 @@ export const BulkImportModal: React.FC<BulkImportModalProps> = ({
             'Mother Name',
           ]);
 
+          // 1. Dedicated Parent Phone extraction (Priority to guardian/parent columns)
           const parent_phone = getRowValue(row, [
+            'លេខទូរស័ព្ទអាណាព្យាបាល (Parent Phone)',
             'លេខទូរស័ព្ទអាណាព្យាបាល',
             'ទូរស័ព្ទអាណាព្យាបាល',
             'លេខអាណាព្យាបាល',
             'អាណាព្យាបាល (ទូរស័ព្ទ)',
-            'parent_phone',
+            'អាណាព្យាបាល',
+            'លេខទូរស័ព្ទឪពុកម្ដាយ',
+            'ទូរស័ព្ទឪពុកម្ដាយ',
+            'លេខឪពុកម្ដាយ',
             'Parent Phone',
+            'parent_phone',
+            'parentPhone',
+            'ParentPhone',
             'Guardian Phone',
             'guardian_phone',
-            'ទូរស័ព្ទ (Phone)',
-            'ទូរស័ព្ទ',
+            'guardianPhone',
+            'GuardianPhone',
+            'Parent Contact',
+            'Emergency Contact',
+          ]);
+
+          // 2. Dedicated Student Phone extraction (Priority to student personal columns)
+          const student_phone = getRowValue(row, [
+            'លេខទូរស័ព្ទសិស្ស (Student Phone)',
+            'លេខទូរស័ព្ទសិស្ស',
+            'ទូរស័ព្ទសិស្ស',
+            'លេខសិស្ស (ទូរស័ព្ទ)',
+            'លេខទូរស័ព្ទផ្ទាល់ (Personal Phone)',
+            'លេខទូរស័ព្ទផ្ទាល់',
+            'ទូរស័ព្ទផ្ទាល់',
+            'លេខផ្ទាល់',
+            'Student Phone',
+            'student_phone',
+            'studentPhone',
+            'StudentID Phone',
+            'Personal Phone',
+            'personal_phone',
+            'personalPhone',
+            'Personal Mobile',
+          ]);
+
+          // 3. Fallback generic phone column if any
+          const generic_phone = getRowValue(row, [
+            'លេខទូរស័ព្ទ (Phone)',
             'លេខទូរស័ព្ទ',
+            'ទូរស័ព្ទ',
             'phone_number',
             'phone',
             'Phone',
@@ -354,22 +390,12 @@ export const BulkImportModal: React.FC<BulkImportModalProps> = ({
             'Tel',
           ]);
 
-          const student_phone = getRowValue(row, [
-            'លេខទូរស័ព្ទផ្ទាល់',
-            'ទូរស័ព្ទផ្ទាល់',
-            'លេខផ្ទាល់',
-            'ទូរស័ព្ទសិស្ស',
-            'លេខទូរស័ព្ទសិស្ស',
-            'លេខសិស្ស',
-            'student_phone',
-            'Student Phone',
-            'personal_phone',
-            'Personal Phone',
-          ]);
+          const finalParentPhone = parent_phone;
+          const finalStudentPhone = student_phone || (!parent_phone ? generic_phone : '');
 
-          const formattedParentPhone = formatPhoneNumber(parent_phone);
-          const formattedStudentPhone = formatPhoneNumber(student_phone);
-          const formattedPhoneNumber = formattedParentPhone || formattedStudentPhone;
+          const formattedParentPhone = formatPhoneNumber(finalParentPhone);
+          const formattedStudentPhone = formatPhoneNumber(finalStudentPhone);
+          const formattedPhoneNumber = formattedStudentPhone || formattedParentPhone;
 
           // Extract photo link (supports Google Drive links, URLs, or image filenames)
           const rawPhoto = getRowValue(row, [
@@ -597,8 +623,11 @@ export const BulkImportModal: React.FC<BulkImportModalProps> = ({
                 <span className="px-2 py-0.5 text-[11px] bg-neutral-100 text-neutral-700 border border-neutral-200 rounded-md">
                   ម្ដាយ
                 </span>
-                <span className="px-2 py-0.5 text-[11px] bg-neutral-100 text-neutral-700 border border-neutral-200 rounded-md">
-                  ទូរស័ព្ទ
+                <span className="px-2 py-0.5 text-[11px] bg-blue-50 text-blue-800 border border-blue-200 rounded-md font-medium" title="បង្ហាញលើប័ណ្ណសិស្ស (ID Card)">
+                  លេខទូរស័ព្ទសិស្ស (Student Phone)
+                </span>
+                <span className="px-2 py-0.5 text-[11px] bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-md font-medium" title="បង្ហាញលើ Digital Card សម្រាប់ទាក់ទង">
+                  លេខទូរស័ព្ទអាណាព្យាបាល (Parent Phone)
                 </span>
                 <span className="px-2 py-0.5 text-[11px] bg-sky-50 text-sky-800 border border-sky-200 rounded-md font-medium">
                   រូបថត / Drive Link
@@ -717,6 +746,8 @@ export const BulkImportModal: React.FC<BulkImportModalProps> = ({
                       <th className="py-2 px-3 font-semibold">ភេទ</th>
                       <th className="py-2 px-3 font-semibold">ថ្ងៃខែឆ្នាំកំណើត</th>
                       <th className="py-2 px-3 font-semibold">ថ្នាក់ / បន្ទប់</th>
+                      <th className="py-2 px-3 font-semibold text-blue-700">លេខសិស្ស (Card)</th>
+                      <th className="py-2 px-3 font-semibold text-emerald-700">លេខអាណាព្យាបាល (Digital)</th>
                       <th className="py-2 px-3 font-semibold">ទីកន្លែងកំណើត</th>
                     </tr>
                   </thead>
@@ -761,7 +792,9 @@ export const BulkImportModal: React.FC<BulkImportModalProps> = ({
                           <td className="py-1.5 px-3">{st.gender}</td>
                           <td className="py-1.5 px-3 font-mono">{st.dob}</td>
                           <td className="py-1.5 px-3">{st.grade} ({st.class_number})</td>
-                          <td className="py-1.5 px-3 text-neutral-600 truncate max-w-[200px]">{st.pob}</td>
+                          <td className="py-1.5 px-3 font-mono text-blue-700 font-semibold">{st.student_phone || '—'}</td>
+                          <td className="py-1.5 px-3 font-mono text-emerald-700 font-semibold">{st.parent_phone || '—'}</td>
+                          <td className="py-1.5 px-3 text-neutral-600 truncate max-w-[180px]">{st.pob}</td>
                         </tr>
                       );
                     })}

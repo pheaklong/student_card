@@ -83,7 +83,7 @@ async function renderElementToImageDataUrl(element: HTMLElement, pixelRatio = 2)
  */
 export async function exportPrintSheetsToPdf(
   pageElements: HTMLElement[],
-  fileName: string = 'ប័ណ្ណសម្គាល់ខ្លួនសិស្ស_A4.pdf',
+  fileName: string = 'ប័ណ្ណសម្គាល់ខ្លួនសិស្ស.pdf',
   onProgress?: (progress: PdfExportProgress) => void
 ): Promise<void> {
   if (!pageElements || pageElements.length === 0) {
@@ -92,16 +92,24 @@ export async function exportPrintSheetsToPdf(
 
   const totalPages = pageElements.length;
 
-  // Initialize jsPDF with A4 portrait dimensions (210mm x 297mm)
+  const firstEl = pageElements[0];
+  const firstW = firstEl?.dataset?.paperWidth ? parseFloat(firstEl.dataset.paperWidth) : 210;
+  const firstH = firstEl?.dataset?.paperHeight ? parseFloat(firstEl.dataset.paperHeight) : 297;
+  const firstOrientation = firstW > firstH ? 'landscape' : 'portrait';
+
+  // Initialize jsPDF with exact paper dimensions
   const pdf = new jsPDF({
-    orientation: 'portrait',
+    orientation: firstOrientation,
     unit: 'mm',
-    format: 'a4',
+    format: [firstW, firstH],
     compress: true,
   });
 
   for (let i = 0; i < totalPages; i++) {
     const pageEl = pageElements[i];
+    const pageW = pageEl?.dataset?.paperWidth ? parseFloat(pageEl.dataset.paperWidth) : firstW;
+    const pageH = pageEl?.dataset?.paperHeight ? parseFloat(pageEl.dataset.paperHeight) : firstH;
+    const pageOrientation = pageW > pageH ? 'landscape' : 'portrait';
 
     if (onProgress) {
       onProgress({
@@ -113,13 +121,13 @@ export async function exportPrintSheetsToPdf(
 
     // Add new page for subsequent sheets
     if (i > 0) {
-      pdf.addPage('a4', 'portrait');
+      pdf.addPage([pageW, pageH], pageOrientation);
     }
 
     const imgData = await renderElementToImageDataUrl(pageEl, 2);
 
-    // Add image filling the exact A4 dimensions (210mm x 297mm)
-    pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+    // Add image filling the exact paper dimensions in mm
+    pdf.addImage(imgData, 'JPEG', 0, 0, pageW, pageH, undefined, 'FAST');
   }
 
   if (onProgress) {

@@ -70,7 +70,13 @@ export type SelectableElement =
   | 'info'
   | 'logo'
   | 'header'
+  | 'headerKingdom'
+  | 'headerMotto'
+  | 'headerMinistry'
+  | 'headerDepartment'
+  | 'headerSchoolName'
   | 'title'
+  | 'subtitle'
   | 'stamp'
   | 'signature'
   | 'qr'
@@ -255,6 +261,31 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
       handleUpdate({
         headerOffsetY: (template.headerOffsetY || 0) + dy,
       });
+    } else if (selectedElement === 'headerKingdom') {
+      handleUpdate({
+        headerKingdomOffsetX: (template.headerKingdomOffsetX || 0) + dx,
+        headerKingdomOffsetY: (template.headerKingdomOffsetY || 0) + dy,
+      });
+    } else if (selectedElement === 'headerMotto') {
+      handleUpdate({
+        headerMottoOffsetX: (template.headerMottoOffsetX || 0) + dx,
+        headerMottoOffsetY: (template.headerMottoOffsetY || 0) + dy,
+      });
+    } else if (selectedElement === 'headerMinistry') {
+      handleUpdate({
+        headerMinistryOffsetX: (template.headerMinistryOffsetX || 0) + dx,
+        headerMinistryOffsetY: (template.headerMinistryOffsetY || 0) + dy,
+      });
+    } else if (selectedElement === 'headerDepartment') {
+      handleUpdate({
+        headerDepartmentOffsetX: (template.headerDepartmentOffsetX || 0) + dx,
+        headerDepartmentOffsetY: (template.headerDepartmentOffsetY || 0) + dy,
+      });
+    } else if (selectedElement === 'headerSchoolName') {
+      handleUpdate({
+        headerSchoolNameOffsetX: (template.headerSchoolNameOffsetX || 0) + dx,
+        headerSchoolNameOffsetY: (template.headerSchoolNameOffsetY || 0) + dy,
+      });
     } else if (selectedElement === 'photo') {
       handleUpdate({
         photoOffsetX: (template.photoOffsetX || 0) + dx,
@@ -295,6 +326,11 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
         titleOffsetX: (template.titleOffsetX || 0) + dx,
         titleOffsetY: (template.titleOffsetY || 0) + dy,
       });
+    } else if (selectedElement === 'subtitle') {
+      handleUpdate({
+        subtitleOffsetX: (template.subtitleOffsetX || 0) + dx,
+        subtitleOffsetY: (template.subtitleOffsetY || 0) + dy,
+      });
     } else if (selectedElement === 'principalName') {
       handleUpdate({
         principalNameOffsetX: (template.principalNameOffsetX || 0) + dx,
@@ -308,8 +344,20 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
       handleUpdate({ logoOffsetX: 0, logoOffsetY: 0, logoScale: 1 });
     } else if (selectedElement === 'header') {
       handleUpdate({ headerOffsetY: 0, headerScale: 1 });
+    } else if (selectedElement === 'headerKingdom') {
+      handleUpdate({ headerKingdomOffsetX: 0, headerKingdomOffsetY: 0 });
+    } else if (selectedElement === 'headerMotto') {
+      handleUpdate({ headerMottoOffsetX: 0, headerMottoOffsetY: 0 });
+    } else if (selectedElement === 'headerMinistry') {
+      handleUpdate({ headerMinistryOffsetX: 0, headerMinistryOffsetY: 0 });
+    } else if (selectedElement === 'headerDepartment') {
+      handleUpdate({ headerDepartmentOffsetX: 0, headerDepartmentOffsetY: 0 });
+    } else if (selectedElement === 'headerSchoolName') {
+      handleUpdate({ headerSchoolNameOffsetX: 0, headerSchoolNameOffsetY: 0 });
     } else if (selectedElement === 'title') {
       handleUpdate({ titleOffsetX: 0, titleOffsetY: 0, titleFontSize: 10 });
+    } else if (selectedElement === 'subtitle') {
+      handleUpdate({ subtitleOffsetX: 0, subtitleOffsetY: 0, subtitleFontSize: 7.6 });
     } else if (selectedElement === 'photo') {
       handleUpdate({ photoOffsetX: 0, photoOffsetY: 0, photoWidthMm: 23, photoHeightMm: 31, photoZoom: 1 });
     } else if (selectedElement === 'info') {
@@ -334,6 +382,36 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
       handleUpdate({
         titleOffsetX: Math.max(-80, Math.min(80, offsetX)),
         titleOffsetY: Math.max(-60, Math.min(60, offsetY)),
+      });
+    } else if (element === 'subtitle') {
+      handleUpdate({
+        subtitleOffsetX: Math.max(-80, Math.min(80, offsetX)),
+        subtitleOffsetY: Math.max(-60, Math.min(60, offsetY)),
+      });
+    } else if (element === 'headerKingdom') {
+      handleUpdate({
+        headerKingdomOffsetX: Math.max(-80, Math.min(80, offsetX)),
+        headerKingdomOffsetY: Math.max(-60, Math.min(60, offsetY)),
+      });
+    } else if (element === 'headerMotto') {
+      handleUpdate({
+        headerMottoOffsetX: Math.max(-80, Math.min(80, offsetX)),
+        headerMottoOffsetY: Math.max(-60, Math.min(60, offsetY)),
+      });
+    } else if (element === 'headerMinistry') {
+      handleUpdate({
+        headerMinistryOffsetX: Math.max(-80, Math.min(80, offsetX)),
+        headerMinistryOffsetY: Math.max(-60, Math.min(60, offsetY)),
+      });
+    } else if (element === 'headerDepartment') {
+      handleUpdate({
+        headerDepartmentOffsetX: Math.max(-80, Math.min(80, offsetX)),
+        headerDepartmentOffsetY: Math.max(-60, Math.min(60, offsetY)),
+      });
+    } else if (element === 'headerSchoolName') {
+      handleUpdate({
+        headerSchoolNameOffsetX: Math.max(-80, Math.min(80, offsetX)),
+        headerSchoolNameOffsetY: Math.max(-60, Math.min(60, offsetY)),
       });
     } else if (element === 'principalTitle') {
       handleUpdate({
@@ -376,6 +454,18 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
   const handleResetElementByName = (element: string) => {
     if (element === 'title') {
       handleUpdate({ titleOffsetX: 0, titleOffsetY: 0 });
+    } else if (element === 'subtitle') {
+      handleUpdate({ subtitleOffsetX: 0, subtitleOffsetY: 0 });
+    } else if (element === 'headerKingdom') {
+      handleUpdate({ headerKingdomOffsetX: 0, headerKingdomOffsetY: 0 });
+    } else if (element === 'headerMotto') {
+      handleUpdate({ headerMottoOffsetX: 0, headerMottoOffsetY: 0 });
+    } else if (element === 'headerMinistry') {
+      handleUpdate({ headerMinistryOffsetX: 0, headerMinistryOffsetY: 0 });
+    } else if (element === 'headerDepartment') {
+      handleUpdate({ headerDepartmentOffsetX: 0, headerDepartmentOffsetY: 0 });
+    } else if (element === 'headerSchoolName') {
+      handleUpdate({ headerSchoolNameOffsetX: 0, headerSchoolNameOffsetY: 0 });
     } else if (element === 'principalTitle') {
       handleUpdate({ principalTitleOffsetX: 0, principalTitleOffsetY: 0 });
     } else if (element === 'principalName') {
@@ -394,23 +484,50 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
   const handleUpdateElementSize = (element: string, delta: number) => {
     if (element === 'photo' || element === 'photoZoom') {
       const curZoom = template.photoZoom || 1;
-      const newZoom = Math.max(0.5, Math.min(2.5, parseFloat((curZoom + delta * 0.05).toFixed(2))));
+      const newZoom = Math.max(0.4, Math.min(3.5, parseFloat((curZoom + delta * 0.05).toFixed(2))));
       handleUpdate({ photoZoom: newZoom });
     } else if (element === 'photoWidth') {
       const curW = template.photoWidthMm || (template.cardLayoutMode === 'kamrieng-official' ? 27 : 23);
-      handleUpdate({ photoWidthMm: Math.max(15, Math.min(45, curW + delta)) });
+      handleUpdate({ photoWidthMm: Math.max(15, Math.min(65, curW + delta)) });
     } else if (element === 'photoHeight') {
       const curH = template.photoHeightMm || (template.cardLayoutMode === 'kamrieng-official' ? 36 : 31);
-      handleUpdate({ photoHeightMm: Math.max(20, Math.min(55, curH + delta)) });
+      handleUpdate({ photoHeightMm: Math.max(20, Math.min(85, curH + delta)) });
     } else if (element === 'stamp' || element === 'stampSize') {
       const curSize = template.stampSize || 52;
       handleUpdate({ stampSize: Math.max(20, Math.min(350, curSize + delta * 5)) });
     } else if (element === 'qr') {
       const curSize = template.qrSize || 46;
-      handleUpdate({ qrSize: Math.max(28, Math.min(70, curSize + delta * 2)) });
+      handleUpdate({ qrSize: Math.max(24, Math.min(120, curSize + delta * 2)) });
     } else if (element === 'logo') {
       const curScale = template.logoScale || 1;
-      handleUpdate({ logoScale: Math.max(0.5, Math.min(2.0, parseFloat((curScale + delta * 0.05).toFixed(2)))) });
+      handleUpdate({ logoScale: Math.max(0.3, Math.min(3.0, parseFloat((curScale + delta * 0.05).toFixed(2)))) });
+    } else if (element === 'header' || element === 'headerScale') {
+      const curScale = template.headerScale || 1;
+      handleUpdate({ headerScale: Math.max(0.5, Math.min(2.5, parseFloat((curScale + delta * 0.05).toFixed(2)))) });
+    } else if (element === 'info' || element === 'infoScale') {
+      const curScale = template.infoScale || 1.0;
+      handleUpdate({ infoScale: Math.max(0.6, Math.min(2.0, parseFloat((curScale + delta * 0.05).toFixed(2)))) });
+    } else if (element === 'headerKingdom') {
+      const cur = template.headerKingdomFontSize || 8.8;
+      handleUpdate({ headerKingdomFontSize: Math.max(5.0, Math.min(22.0, parseFloat((cur + delta * 0.3).toFixed(1)))) });
+    } else if (element === 'headerMotto') {
+      const cur = template.headerMottoFontSize || 7.6;
+      handleUpdate({ headerMottoFontSize: Math.max(4.5, Math.min(20.0, parseFloat((cur + delta * 0.3).toFixed(1)))) });
+    } else if (element === 'headerMinistry') {
+      const cur = template.headerMinistryFontSize || 7.5;
+      handleUpdate({ headerMinistryFontSize: Math.max(5.0, Math.min(20.0, parseFloat((cur + delta * 0.3).toFixed(1)))) });
+    } else if (element === 'headerDepartment') {
+      const cur = template.headerDepartmentFontSize || 7.0;
+      handleUpdate({ headerDepartmentFontSize: Math.max(5.0, Math.min(20.0, parseFloat((cur + delta * 0.3).toFixed(1)))) });
+    } else if (element === 'headerSchoolName') {
+      const cur = template.headerSchoolNameFontSize || 8.5;
+      handleUpdate({ headerSchoolNameFontSize: Math.max(5.5, Math.min(24.0, parseFloat((cur + delta * 0.3).toFixed(1)))) });
+    } else if (element === 'title') {
+      const cur = template.titleFontSize || 10;
+      handleUpdate({ titleFontSize: Math.max(6.0, Math.min(26.0, parseFloat((cur + delta * 0.5).toFixed(1)))) });
+    } else if (element === 'subtitle') {
+      const cur = template.subtitleFontSize || 6.5;
+      handleUpdate({ subtitleFontSize: Math.max(5.0, Math.min(20.0, parseFloat((cur + delta * 0.4).toFixed(1)))) });
     }
   };
 
@@ -775,149 +892,251 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                   <label className="block text-xs font-bold text-neutral-700 mb-2">
                     ជ្រើសរើសធាតុដែលត្រូវកែសម្រួល (Select Element to Move/Scale)៖
                   </label>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-xs">
-                    <button
-                      type="button"
-                      onClick={() => setSelectedElement('photo')}
-                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg border font-medium transition-all ${
-                        selectedElement === 'photo'
-                          ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
-                          : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
-                      }`}
-                    >
-                      <UserCheck className="w-3.5 h-3.5" />
-                      <span>👤 រូបថត 3x4</span>
-                    </button>
 
-                    <button
-                      type="button"
-                      onClick={() => setSelectedElement('info')}
-                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg border font-medium transition-all ${
-                        selectedElement === 'info'
-                          ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
-                          : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
-                      }`}
-                    >
-                      <Type className="w-3.5 h-3.5" />
-                      <span>📝 ព័ត៌មាន Info</span>
-                    </button>
+                  {/* Category 1: Header Words & Titles */}
+                  <div className="mb-2.5">
+                    <span className="block text-[11px] font-bold text-blue-900 mb-1">
+                      🏛️ ផ្នែកក្បាលប័ណ្ណ & ចំណងជើង (Header Words & Title)
+                    </span>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-xs">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('headerKingdom')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'headerKingdom'
+                            ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                        title="ព្រះរាជាណាចក្រកម្ពុជា"
+                      >
+                        <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+                        <span className="truncate">👑 ព្រះរាជាណាចក្រកម្ពុជា</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => setSelectedElement('logo')}
-                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg border font-medium transition-all ${
-                        selectedElement === 'logo'
-                          ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
-                          : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
-                      }`}
-                    >
-                      <ShieldCheck className="w-3.5 h-3.5" />
-                      <span>👑 ផ្លាកសញ្ញា Logo</span>
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('headerMotto')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'headerMotto'
+                            ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                        title="ជាតិ សាសនា ព្រះមហាក្សត្រ"
+                      >
+                        <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                        <span className="truncate">🇰🇭 ជាតិ សាសនា...</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => setSelectedElement('header')}
-                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg border font-medium transition-all ${
-                        selectedElement === 'header'
-                          ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
-                          : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
-                      }`}
-                    >
-                      <Layers className="w-3.5 h-3.5" />
-                      <span>🏛️ ក្បាលប័ណ្ណ Header</span>
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('headerMinistry')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'headerMinistry'
+                            ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                        title="ក្រសួងអប់រំ យុវជន និងកីឡា"
+                      >
+                        <Layers className="w-3.5 h-3.5 text-blue-600" />
+                        <span className="truncate">🏢 ក្រសួងអប់រំ...</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => setSelectedElement('title')}
-                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg border font-medium transition-all ${
-                        selectedElement === 'title'
-                          ? 'bg-amber-50 border-amber-500 text-amber-800 font-bold shadow-xs'
-                          : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
-                      }`}
-                    >
-                      <Type className="w-3.5 h-3.5 text-amber-600" />
-                      <span>🏷️ «ប័ណ្ណសម្គាល់ខ្លួន»</span>
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('headerDepartment')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'headerDepartment'
+                            ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                        title="មន្ទីរអប់រំ យុវជន និងកីឡា..."
+                      >
+                        <Layers className="w-3.5 h-3.5 text-indigo-600" />
+                        <span className="truncate">🏬 មន្ទីរអប់រំ...</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => setSelectedElement('stamp')}
-                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg border font-medium transition-all ${
-                        selectedElement === 'stamp'
-                          ? 'bg-rose-50 border-rose-500 text-rose-700 font-bold shadow-xs'
-                          : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
-                      }`}
-                    >
-                      <FileCheck2 className="w-3.5 h-3.5 text-rose-600" />
-                      <span>🔴 ត្រាក្រហម Stamp</span>
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('headerSchoolName')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'headerSchoolName'
+                            ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                        title="ឈ្មោះវិទ្យាល័យ / សាលា"
+                      >
+                        <Type className="w-3.5 h-3.5 text-indigo-600" />
+                        <span className="truncate">🏫 ឈ្មោះវិទ្យាល័យ</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => setSelectedElement('signature')}
-                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg border font-medium transition-all ${
-                        selectedElement === 'signature'
-                          ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
-                          : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
-                      }`}
-                    >
-                      <FileCheck2 className="w-3.5 h-3.5 text-blue-600" />
-                      <span>✍️ ហត្ថលេខា Signature</span>
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('title')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'title'
+                            ? 'bg-amber-50 border-amber-500 text-amber-800 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                        title="ប័ណ្ណសម្គាល់ខ្លួនសិស្ស"
+                      >
+                        <Type className="w-3.5 h-3.5 text-amber-600" />
+                        <span className="truncate">🏷️ «ប័ណ្ណសម្គាល់ខ្លួន»</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => setSelectedElement('qr')}
-                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg border font-medium transition-all ${
-                        selectedElement === 'qr'
-                          ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
-                          : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
-                      }`}
-                    >
-                      <QrCode className="w-3.5 h-3.5" />
-                      <span>📱 កូដ QR Code</span>
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('subtitle')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'subtitle'
+                            ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                        title="ឆ្នាំសិក្សា ២០២៥-២០២៧ (ចំណងជើងរង)"
+                      >
+                        <Calendar className="w-3.5 h-3.5 text-blue-600" />
+                        <span className="truncate">📅 ឆ្នាំសិក្សា (Year)</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => setSelectedElement('date')}
-                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg border font-medium transition-all ${
-                        selectedElement === 'date'
-                          ? 'bg-emerald-50 border-emerald-500 text-emerald-700 font-bold shadow-xs'
-                          : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
-                      }`}
-                    >
-                      <Calendar className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>📅 ថ្ងៃខែ (Date)</span>
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('logo')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'logo'
+                            ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                        title="ផ្លាកសញ្ញា Logo"
+                      >
+                        <ShieldCheck className="w-3.5 h-3.5" />
+                        <span className="truncate">👑 ផ្លាកសញ្ញា Logo</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => setSelectedElement('principalTitle')}
-                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg border font-medium transition-all ${
-                        selectedElement === 'principalTitle'
-                          ? 'bg-indigo-50 border-indigo-500 text-indigo-700 font-bold shadow-xs'
-                          : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
-                      }`}
-                    >
-                      <UserCheck className="w-3.5 h-3.5 text-indigo-600" />
-                      <span>🎓 នាយកវិទ្យាល័យ (Title)</span>
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('header')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'header'
+                            ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                        title="ក្បាលប័ណ្ណទាំងមូល (Header Block)"
+                      >
+                        <Layers className="w-3.5 h-3.5" />
+                        <span className="truncate">🏛️ ក្បាលប័ណ្ណទាំងមូល</span>
+                      </button>
+                    </div>
+                  </div>
 
-                    <button
-                      type="button"
-                      onClick={() => setSelectedElement('principalName')}
-                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg border font-medium transition-all ${
-                        selectedElement === 'principalName'
-                          ? 'bg-purple-50 border-purple-500 text-purple-700 font-bold shadow-xs'
-                          : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
-                      }`}
-                    >
-                      <UserCheck className="w-3.5 h-3.5 text-purple-600" />
-                      <span>👨‍💼 ឈ្មោះ អ៊ុង កងធារ៉ាវុធ</span>
-                    </button>
+                  {/* Category 2: Body & Footer Elements */}
+                  <div>
+                    <span className="block text-[11px] font-bold text-neutral-700 mb-1">
+                      👤 ផ្នែកតួ & បាតប័ណ្ណ (Body & Footer Elements)
+                    </span>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-xs">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('photo')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'photo'
+                            ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                      >
+                        <UserCheck className="w-3.5 h-3.5" />
+                        <span>👤 រូបថត 3x4</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('info')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'info'
+                            ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                      >
+                        <Type className="w-3.5 h-3.5" />
+                        <span>📝 ព័ត៌មាន Info</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('qr')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'qr'
+                            ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                      >
+                        <QrCode className="w-3.5 h-3.5" />
+                        <span>📱 កូដ QR Code</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('stamp')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'stamp'
+                            ? 'bg-rose-50 border-rose-500 text-rose-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                      >
+                        <FileCheck2 className="w-3.5 h-3.5 text-rose-600" />
+                        <span>🔴 ត្រាក្រហម Stamp</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('signature')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'signature'
+                            ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                      >
+                        <FileCheck2 className="w-3.5 h-3.5 text-blue-600" />
+                        <span>✍️ ហត្ថលេខា Signature</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('date')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'date'
+                            ? 'bg-emerald-50 border-emerald-500 text-emerald-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                      >
+                        <Calendar className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>📅 ថ្ងៃខែ (Date)</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('principalTitle')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'principalTitle'
+                            ? 'bg-indigo-50 border-indigo-500 text-indigo-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                      >
+                        <UserCheck className="w-3.5 h-3.5 text-indigo-600" />
+                        <span>🎓 នាយកវិទ្យាល័យ</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setSelectedElement('principalName')}
+                        className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg border font-medium transition-all ${
+                          selectedElement === 'principalName'
+                            ? 'bg-purple-50 border-purple-500 text-purple-700 font-bold shadow-xs'
+                            : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                      >
+                        <UserCheck className="w-3.5 h-3.5 text-purple-600" />
+                        <span>👨‍💼 ឈ្មោះនាយក</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -958,7 +1177,7 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                       type="button"
                       onClick={() => handleNudge(0, -nudgeStep)}
                       title="រំកិលឡើងលើ"
-                      className="w-12 h-10 bg-white border border-neutral-300 hover:border-blue-400 hover:bg-blue-50 text-neutral-700 hover:text-blue-700 rounded-lg shadow-xs flex items-center justify-center transition-all active:scale-95"
+                      className="w-12 h-10 bg-white border border-neutral-300 hover:border-blue-400 hover:bg-blue-50 text-neutral-700 hover:text-blue-700 rounded-lg shadow-xs flex items-center justify-center transition-all active:scale-95 cursor-pointer"
                     >
                       <ArrowUp className="w-5 h-5" />
                     </button>
@@ -969,7 +1188,7 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                         type="button"
                         onClick={() => handleNudge(-nudgeStep, 0)}
                         title="រំកិលទៅឆ្វេង"
-                        className="w-12 h-10 bg-white border border-neutral-300 hover:border-blue-400 hover:bg-blue-50 text-neutral-700 hover:text-blue-700 rounded-lg shadow-xs flex items-center justify-center transition-all active:scale-95"
+                        className="w-12 h-10 bg-white border border-neutral-300 hover:border-blue-400 hover:bg-blue-50 text-neutral-700 hover:text-blue-700 rounded-lg shadow-xs flex items-center justify-center transition-all active:scale-95 cursor-pointer"
                       >
                         <ArrowLeft className="w-5 h-5" />
                       </button>
@@ -978,7 +1197,7 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                         type="button"
                         onClick={handleResetElement}
                         title="កំណត់ទីតាំងដើមឡើងវិញ"
-                        className="px-3 h-10 bg-white border border-neutral-300 hover:bg-rose-50 hover:text-rose-600 text-neutral-600 rounded-lg shadow-xs flex items-center gap-1 text-[11px] font-medium transition-all active:scale-95"
+                        className="px-3 h-10 bg-white border border-neutral-300 hover:bg-rose-50 hover:text-rose-600 text-neutral-600 rounded-lg shadow-xs flex items-center gap-1 text-[11px] font-medium transition-all active:scale-95 cursor-pointer"
                       >
                         <RotateCcw className="w-3.5 h-3.5 text-neutral-400" />
                         <span>កំណត់ដើម (0,0)</span>
@@ -988,7 +1207,7 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                         type="button"
                         onClick={() => handleNudge(nudgeStep, 0)}
                         title="រំកិលទៅស្តាំ"
-                        className="w-12 h-10 bg-white border border-neutral-300 hover:border-blue-400 hover:bg-blue-50 text-neutral-700 hover:text-blue-700 rounded-lg shadow-xs flex items-center justify-center transition-all active:scale-95"
+                        className="w-12 h-10 bg-white border border-neutral-300 hover:border-blue-400 hover:bg-blue-50 text-neutral-700 hover:text-blue-700 rounded-lg shadow-xs flex items-center justify-center transition-all active:scale-95 cursor-pointer"
                       >
                         <ArrowRight className="w-5 h-5" />
                       </button>
@@ -999,7 +1218,7 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                       type="button"
                       onClick={() => handleNudge(0, nudgeStep)}
                       title="រំកិលចុះក្រោម"
-                      className="w-12 h-10 bg-white border border-neutral-300 hover:border-blue-400 hover:bg-blue-50 text-neutral-700 hover:text-blue-700 rounded-lg shadow-xs flex items-center justify-center transition-all active:scale-95"
+                      className="w-12 h-10 bg-white border border-neutral-300 hover:border-blue-400 hover:bg-blue-50 text-neutral-700 hover:text-blue-700 rounded-lg shadow-xs flex items-center justify-center transition-all active:scale-95 cursor-pointer"
                     >
                       <ArrowDown className="w-5 h-5" />
                     </button>
@@ -1017,6 +1236,20 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                         <strong>
                           {selectedElement === 'logo'
                             ? template.logoOffsetX || 0
+                            : selectedElement === 'headerKingdom'
+                            ? template.headerKingdomOffsetX || 0
+                            : selectedElement === 'headerMotto'
+                            ? template.headerMottoOffsetX || 0
+                            : selectedElement === 'headerMinistry'
+                            ? template.headerMinistryOffsetX || 0
+                            : selectedElement === 'headerDepartment'
+                            ? template.headerDepartmentOffsetX || 0
+                            : selectedElement === 'headerSchoolName'
+                            ? template.headerSchoolNameOffsetX || 0
+                            : selectedElement === 'title'
+                            ? template.titleOffsetX || 0
+                            : selectedElement === 'subtitle'
+                            ? template.subtitleOffsetX || 0
                             : selectedElement === 'photo'
                             ? template.photoOffsetX || 0
                             : selectedElement === 'info'
@@ -1045,6 +1278,20 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                             ? template.logoOffsetY || 0
                             : selectedElement === 'header'
                             ? template.headerOffsetY || 0
+                            : selectedElement === 'headerKingdom'
+                            ? template.headerKingdomOffsetY || 0
+                            : selectedElement === 'headerMotto'
+                            ? template.headerMottoOffsetY || 0
+                            : selectedElement === 'headerMinistry'
+                            ? template.headerMinistryOffsetY || 0
+                            : selectedElement === 'headerDepartment'
+                            ? template.headerDepartmentOffsetY || 0
+                            : selectedElement === 'headerSchoolName'
+                            ? template.headerSchoolNameOffsetY || 0
+                            : selectedElement === 'title'
+                            ? template.titleOffsetY || 0
+                            : selectedElement === 'subtitle'
+                            ? template.subtitleOffsetY || 0
                             : selectedElement === 'photo'
                             ? template.photoOffsetY || 0
                             : selectedElement === 'info'
@@ -1132,8 +1379,8 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                           </div>
                           <input
                             type="range"
-                            min="0.7"
-                            max="2.0"
+                            min="0.4"
+                            max="3.5"
                             step="0.05"
                             value={template.photoZoom || 1}
                             onChange={(e) =>
@@ -1305,8 +1552,8 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                           </div>
                           <input
                             type="range"
-                            min="0.85"
-                            max="1.30"
+                            min="0.6"
+                            max="2.0"
                             step="0.05"
                             value={template.infoScale || 1.0}
                             onChange={(e) =>
@@ -1402,8 +1649,8 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                           </div>
                           <input
                             type="range"
-                            min="0.5"
-                            max="2.2"
+                            min="0.3"
+                            max="3.0"
                             step="0.05"
                             value={template.logoScale || 1}
                             onChange={(e) =>
@@ -1466,8 +1713,8 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                           </div>
                           <input
                             type="range"
-                            min="0.75"
-                            max="1.35"
+                            min="0.5"
+                            max="2.5"
                             step="0.05"
                             value={template.headerScale || 1}
                             onChange={(e) =>
@@ -1679,6 +1926,633 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                               handleUpdate({ titleOffsetY: parseInt(e.target.value) })
                             }
                             className="w-full accent-amber-600"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SUBTITLE / ACADEMIC YEAR CONTROLS */}
+                  {selectedElement === 'subtitle' && (
+                    <div className="space-y-4 bg-blue-50/50 border border-blue-200 rounded-xl p-4">
+                      <div className="flex items-center justify-between border-b border-blue-100 pb-2">
+                        <h4 className="text-xs font-bold text-blue-950 flex items-center gap-1.5">
+                          <Calendar className="w-4 h-4 text-blue-600" />
+                          <span>កំណត់ពាក្យ «ឆ្នាំសិក្សា ២០២៥-២០២៧» (Academic Year / Subtitle)</span>
+                        </h4>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setActiveTab('title')}
+                            className="text-[11px] text-blue-700 hover:text-blue-900 bg-white border border-blue-200 px-2 py-0.5 rounded shadow-xs cursor-pointer font-medium"
+                          >
+                            ផ្ទាំងចំណងជើង ↗
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleResetElementByName('subtitle')}
+                            className="text-[11px] text-blue-800 hover:text-blue-950 bg-white border border-blue-200 px-2 py-0.5 rounded shadow-xs cursor-pointer"
+                          >
+                            ↺ កំណត់ដើម
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Text edit for year */}
+                      <div>
+                        <label className="block text-xs font-bold text-neutral-700 mb-1">
+                          ខ្លឹមសារអក្សរឆ្នាំសិក្សា (Academic Year Text)៖
+                        </label>
+                        <input
+                          type="text"
+                          value={template.headerSubtitleKhmer}
+                          onChange={(e) => handleUpdate({ headerSubtitleKhmer: e.target.value })}
+                          placeholder={school.academic_year || 'ឆ្នាំសិក្សា ២០២៥-២០២៦'}
+                          className="w-full text-xs border border-neutral-300 rounded-lg px-3 py-1.5 bg-white font-medium"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        {/* Subtitle Font Size */}
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">ទំហំអក្សរ (Font Size):</span>
+                            <span className="font-mono font-bold text-blue-600">
+                              {(template.subtitleFontSize || 7.6).toFixed(1)} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="5"
+                            max="14"
+                            step="0.2"
+                            value={template.subtitleFontSize || 7.6}
+                            onChange={(e) =>
+                              handleUpdate({ subtitleFontSize: parseFloat(e.target.value) })
+                            }
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+
+                        {/* Subtitle X Offset */}
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">រំកិល ឆ្វេង-ស្តាំ (X Offset):</span>
+                            <span className="font-mono font-bold text-blue-600">
+                              {template.subtitleOffsetX || 0} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-60"
+                            max="60"
+                            step="1"
+                            value={template.subtitleOffsetX || 0}
+                            onChange={(e) =>
+                              handleUpdate({ subtitleOffsetX: parseInt(e.target.value) })
+                            }
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+
+                        {/* Subtitle Y Offset */}
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">រំកិល លើ-ក្រោម (Y Offset):</span>
+                            <span className="font-mono font-bold text-blue-600">
+                              {template.subtitleOffsetY || 0} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-40"
+                            max="40"
+                            step="1"
+                            value={template.subtitleOffsetY || 0}
+                            onChange={(e) =>
+                              handleUpdate({ subtitleOffsetY: parseInt(e.target.value) })
+                            }
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* KINGDOM TITLE CONTROLS */}
+                  {selectedElement === 'headerKingdom' && (
+                    <div className="space-y-4 bg-sky-50/50 border border-sky-200 rounded-xl p-4">
+                      <div className="flex items-center justify-between border-b border-sky-100 pb-2">
+                        <h4 className="text-xs font-bold text-sky-950 flex items-center gap-1.5">
+                          <ShieldCheck className="w-4 h-4 text-sky-600" />
+                          <span>កំណត់ពាក្យ «ព្រះរាជាណាចក្រកម្ពុជា» (Kingdom Title)</span>
+                        </h4>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setActiveTab('header')}
+                            className="text-[11px] text-blue-700 hover:text-blue-900 bg-white border border-blue-200 px-2 py-0.5 rounded shadow-xs cursor-pointer font-medium"
+                          >
+                            ផ្ទាំងក្បាលប័ណ្ណ ↗
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleResetElementByName('headerKingdom')}
+                            className="text-[11px] text-sky-800 hover:text-sky-950 bg-white border border-sky-200 px-2 py-0.5 rounded shadow-xs cursor-pointer"
+                          >
+                            ↺ កំណត់ដើម
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">រំកិល ឆ្វេង-ស្តាំ (X Offset):</span>
+                            <span className="font-mono font-bold text-sky-600">
+                              {template.headerKingdomOffsetX || 0} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-60"
+                            max="60"
+                            step="1"
+                            value={template.headerKingdomOffsetX || 0}
+                            onChange={(e) =>
+                              handleUpdate({ headerKingdomOffsetX: parseInt(e.target.value) })
+                            }
+                            className="w-full accent-sky-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">រំកិល លើ-ក្រោម (Y Offset):</span>
+                            <span className="font-mono font-bold text-sky-600">
+                              {template.headerKingdomOffsetY || 0} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-50"
+                            max="50"
+                            step="1"
+                            value={template.headerKingdomOffsetY || 0}
+                            onChange={(e) =>
+                              handleUpdate({ headerKingdomOffsetY: parseInt(e.target.value) })
+                            }
+                            className="w-full accent-sky-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">ទំហំអក្សរ (Font Size):</span>
+                            <span className="font-mono font-bold text-sky-600">
+                              {(template.headerKingdomFontSize || 8.8).toFixed(1)} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="5.0"
+                            max="22.0"
+                            step="0.2"
+                            value={template.headerKingdomFontSize || 8.8}
+                            onChange={(e) =>
+                              handleUpdate({ headerKingdomFontSize: parseFloat(e.target.value) })
+                            }
+                            className="w-full accent-sky-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">អត្ថបទ (កែប្រែលើកាត)៖</span>
+                          </div>
+                          <input
+                            type="text"
+                            value={template.headerKingdomKhmer ?? ''}
+                            onChange={(e) => handleUpdate({ headerKingdomKhmer: e.target.value })}
+                            placeholder="ព្រះរាជាណាចក្រកម្ពុជា"
+                            className="w-full text-xs px-2.5 py-1.5 border border-sky-200 rounded-lg bg-white"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* MOTTO CONTROLS */}
+                  {selectedElement === 'headerMotto' && (
+                    <div className="space-y-4 bg-amber-50/50 border border-amber-200 rounded-xl p-4">
+                      <div className="flex items-center justify-between border-b border-amber-100 pb-2">
+                        <h4 className="text-xs font-bold text-amber-950 flex items-center gap-1.5">
+                          <Sparkles className="w-4 h-4 text-amber-600" />
+                          <span>កំណត់ពាក្យ «ជាតិ សាសនា ព្រះមហាក្សត្រ» (Royal Motto)</span>
+                        </h4>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setActiveTab('header')}
+                            className="text-[11px] text-blue-700 hover:text-blue-900 bg-white border border-blue-200 px-2 py-0.5 rounded shadow-xs cursor-pointer font-medium"
+                          >
+                            ផ្ទាំងក្បាលប័ណ្ណ ↗
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleResetElementByName('headerMotto')}
+                            className="text-[11px] text-amber-800 hover:text-amber-950 bg-white border border-amber-200 px-2 py-0.5 rounded shadow-xs cursor-pointer"
+                          >
+                            ↺ កំណត់ដើម
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">រំកិល ឆ្វេង-ស្តាំ (X Offset):</span>
+                            <span className="font-mono font-bold text-amber-600">
+                              {template.headerMottoOffsetX || 0} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-60"
+                            max="60"
+                            step="1"
+                            value={template.headerMottoOffsetX || 0}
+                            onChange={(e) =>
+                              handleUpdate({ headerMottoOffsetX: parseInt(e.target.value) })
+                            }
+                            className="w-full accent-amber-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">រំកិល លើ-ក្រោម (Y Offset):</span>
+                            <span className="font-mono font-bold text-amber-600">
+                              {template.headerMottoOffsetY || 0} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-50"
+                            max="50"
+                            step="1"
+                            value={template.headerMottoOffsetY || 0}
+                            onChange={(e) =>
+                              handleUpdate({ headerMottoOffsetY: parseInt(e.target.value) })
+                            }
+                            className="w-full accent-amber-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">ទំហំអក្សរ (Font Size):</span>
+                            <span className="font-mono font-bold text-amber-600">
+                              {(template.headerMottoFontSize || 7.6).toFixed(1)} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="4.5"
+                            max="20.0"
+                            step="0.2"
+                            value={template.headerMottoFontSize || 7.6}
+                            onChange={(e) =>
+                              handleUpdate({ headerMottoFontSize: parseFloat(e.target.value) })
+                            }
+                            className="w-full accent-amber-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">អត្ថបទ (កែប្រែលើកាត)៖</span>
+                          </div>
+                          <input
+                            type="text"
+                            value={template.headerMottoKhmer ?? ''}
+                            onChange={(e) => handleUpdate({ headerMottoKhmer: e.target.value })}
+                            placeholder="ជាតិ សាសនា ព្រះមហាក្សត្រ"
+                            className="w-full text-xs px-2.5 py-1.5 border border-amber-200 rounded-lg bg-white"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* MINISTRY CONTROLS */}
+                  {selectedElement === 'headerMinistry' && (
+                    <div className="space-y-4 bg-blue-50/50 border border-blue-200 rounded-xl p-4">
+                      <div className="flex items-center justify-between border-b border-blue-100 pb-2">
+                        <h4 className="text-xs font-bold text-blue-950 flex items-center gap-1.5">
+                          <Layers className="w-4 h-4 text-blue-600" />
+                          <span>កំណត់ពាក្យ «ក្រសួងអប់រំ យុវជន និងកីឡា» (Ministry Line)</span>
+                        </h4>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setActiveTab('header')}
+                            className="text-[11px] text-blue-700 hover:text-blue-900 bg-white border border-blue-200 px-2 py-0.5 rounded shadow-xs cursor-pointer font-medium"
+                          >
+                            ផ្ទាំងក្បាលប័ណ្ណ ↗
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleResetElementByName('headerMinistry')}
+                            className="text-[11px] text-blue-800 hover:text-blue-950 bg-white border border-blue-200 px-2 py-0.5 rounded shadow-xs cursor-pointer"
+                          >
+                            ↺ កំណត់ដើម
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">រំកិល ឆ្វេង-ស្តាំ (X Offset):</span>
+                            <span className="font-mono font-bold text-blue-600">
+                              {template.headerMinistryOffsetX || 0} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-60"
+                            max="60"
+                            step="1"
+                            value={template.headerMinistryOffsetX || 0}
+                            onChange={(e) =>
+                              handleUpdate({ headerMinistryOffsetX: parseInt(e.target.value) })
+                            }
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">រំកិល លើ-ក្រោម (Y Offset):</span>
+                            <span className="font-mono font-bold text-blue-600">
+                              {template.headerMinistryOffsetY || 0} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-50"
+                            max="50"
+                            step="1"
+                            value={template.headerMinistryOffsetY || 0}
+                            onChange={(e) =>
+                              handleUpdate({ headerMinistryOffsetY: parseInt(e.target.value) })
+                            }
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">ទំហំអក្សរក្រសួង (Font Size):</span>
+                            <span className="font-mono font-bold text-blue-600">
+                              {(template.headerMinistryFontSize || 7.5).toFixed(1)} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="5.0"
+                            max="20.0"
+                            step="0.2"
+                            value={template.headerMinistryFontSize || 7.5}
+                            onChange={(e) =>
+                              handleUpdate({ headerMinistryFontSize: parseFloat(e.target.value) })
+                            }
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">អត្ថបទក្រសួង (កែប្រែលើកាត)៖</span>
+                          </div>
+                          <input
+                            type="text"
+                            value={template.headerMinistryKhmer ?? ''}
+                            onChange={(e) => handleUpdate({ headerMinistryKhmer: e.target.value })}
+                            placeholder={school.ministry_name || 'ក្រសួងអប់រំ យុវជន និងកីឡា'}
+                            className="w-full text-xs px-2.5 py-1.5 border border-blue-200 rounded-lg bg-white"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* DEPARTMENT CONTROLS */}
+                  {selectedElement === 'headerDepartment' && (
+                    <div className="space-y-4 bg-indigo-50/50 border border-indigo-200 rounded-xl p-4">
+                      <div className="flex items-center justify-between border-b border-indigo-100 pb-2">
+                        <h4 className="text-xs font-bold text-indigo-950 flex items-center gap-1.5">
+                          <Layers className="w-4 h-4 text-indigo-600" />
+                          <span>កំណត់ពាក្យ «មន្ទីរអប់រំ យុវជន និងកីឡា...» (Department Line)</span>
+                        </h4>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setActiveTab('header')}
+                            className="text-[11px] text-blue-700 hover:text-blue-900 bg-white border border-blue-200 px-2 py-0.5 rounded shadow-xs cursor-pointer font-medium"
+                          >
+                            ផ្ទាំងក្បាលប័ណ្ណ ↗
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleResetElementByName('headerDepartment')}
+                            className="text-[11px] text-indigo-800 hover:text-indigo-950 bg-white border border-indigo-200 px-2 py-0.5 rounded shadow-xs cursor-pointer"
+                          >
+                            ↺ កំណត់ដើម
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">រំកិល ឆ្វេង-ស្តាំ (X Offset):</span>
+                            <span className="font-mono font-bold text-indigo-600">
+                              {template.headerDepartmentOffsetX || 0} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-80"
+                            max="80"
+                            step="1"
+                            value={template.headerDepartmentOffsetX || 0}
+                            onChange={(e) =>
+                              handleUpdate({ headerDepartmentOffsetX: parseInt(e.target.value) })
+                            }
+                            className="w-full accent-indigo-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">រំកិល លើ-ក្រោម (Y Offset):</span>
+                            <span className="font-mono font-bold text-indigo-600">
+                              {template.headerDepartmentOffsetY || 0} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-50"
+                            max="50"
+                            step="1"
+                            value={template.headerDepartmentOffsetY || 0}
+                            onChange={(e) =>
+                              handleUpdate({ headerDepartmentOffsetY: parseInt(e.target.value) })
+                            }
+                            className="w-full accent-indigo-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">ទំហំអក្សរមន្ទីរ (Font Size):</span>
+                            <span className="font-mono font-bold text-indigo-600">
+                              {(template.headerDepartmentFontSize || 7.0).toFixed(1)} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="5.0"
+                            max="14.0"
+                            step="0.2"
+                            value={template.headerDepartmentFontSize || 7.0}
+                            onChange={(e) =>
+                              handleUpdate({ headerDepartmentFontSize: parseFloat(e.target.value) })
+                            }
+                            className="w-full accent-indigo-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">អត្ថបទមន្ទីរ (កែប្រែលើកាត)៖</span>
+                          </div>
+                          <input
+                            type="text"
+                            value={template.headerDepartmentKhmer ?? ''}
+                            onChange={(e) => handleUpdate({ headerDepartmentKhmer: e.target.value })}
+                            placeholder={school.department_name || 'មន្ទីរអប់រំ យុវជន និងកីឡា...'}
+                            className="w-full text-xs px-2.5 py-1.5 border border-indigo-200 rounded-lg bg-white"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 text-[11px] text-emerald-800 bg-emerald-50 px-2.5 py-1.5 rounded-lg border border-emerald-200 font-medium">
+                        <span>✓</span>
+                        <span>ពាក្យ «មន្ទីរអប់រំ យុវជន និងកីឡា» ត្រូវបានកំណត់ឱ្យបង្ហាញតែ ១ បន្ទាត់ជានិច្ច (Single line nowrap មិនបាក់ជួរ)</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SCHOOL NAME CONTROLS */}
+                  {selectedElement === 'headerSchoolName' && (
+                    <div className="space-y-4 bg-purple-50/50 border border-purple-200 rounded-xl p-4">
+                      <div className="flex items-center justify-between border-b border-purple-100 pb-2">
+                        <h4 className="text-xs font-bold text-purple-950 flex items-center gap-1.5">
+                          <Type className="w-4 h-4 text-purple-600" />
+                          <span>កំណត់ «ឈ្មោះវិទ្យាល័យ / សាលា» (School Name Line)</span>
+                        </h4>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setActiveTab('header')}
+                            className="text-[11px] text-blue-700 hover:text-blue-900 bg-white border border-blue-200 px-2 py-0.5 rounded shadow-xs cursor-pointer font-medium"
+                          >
+                            ផ្ទាំងក្បាលប័ណ្ណ ↗
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleResetElementByName('headerSchoolName')}
+                            className="text-[11px] text-purple-800 hover:text-purple-950 bg-white border border-purple-200 px-2 py-0.5 rounded shadow-xs cursor-pointer"
+                          >
+                            ↺ កំណត់ដើម
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">រំកិល ឆ្វេង-ស្តាំ (X Offset):</span>
+                            <span className="font-mono font-bold text-purple-600">
+                              {template.headerSchoolNameOffsetX || 0} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-60"
+                            max="60"
+                            step="1"
+                            value={template.headerSchoolNameOffsetX || 0}
+                            onChange={(e) =>
+                              handleUpdate({ headerSchoolNameOffsetX: parseInt(e.target.value) })
+                            }
+                            className="w-full accent-purple-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">រំកិល លើ-ក្រោម (Y Offset):</span>
+                            <span className="font-mono font-bold text-purple-600">
+                              {template.headerSchoolNameOffsetY || 0} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-50"
+                            max="50"
+                            step="1"
+                            value={template.headerSchoolNameOffsetY || 0}
+                            onChange={(e) =>
+                              handleUpdate({ headerSchoolNameOffsetY: parseInt(e.target.value) })
+                            }
+                            className="w-full accent-purple-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">ទំហំអក្សរឈ្មោះសាលា (Font Size):</span>
+                            <span className="font-mono font-bold text-purple-600">
+                              {(template.headerSchoolNameFontSize || 8.5).toFixed(1)} px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="5.5"
+                            max="24.0"
+                            step="0.2"
+                            value={template.headerSchoolNameFontSize || 8.5}
+                            onChange={(e) =>
+                              handleUpdate({ headerSchoolNameFontSize: parseFloat(e.target.value) })
+                            }
+                            className="w-full accent-purple-600"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-medium text-neutral-700">ឈ្មោះសាលា (កែប្រែលើកាត)៖</span>
+                          </div>
+                          <input
+                            type="text"
+                            value={template.headerSchoolNameKhmer ?? ''}
+                            onChange={(e) => handleUpdate({ headerSchoolNameKhmer: e.target.value })}
+                            placeholder={school.school_name || 'វិទ្យាល័យ...'}
+                            className="w-full text-xs px-2.5 py-1.5 border border-purple-200 rounded-lg bg-white"
                           />
                         </div>
                       </div>
@@ -3245,15 +4119,15 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                   </div>
                 </div>
 
-                {/* 4. Subtitle "STUDENT IDENTITY CARD" Controls */}
-                <div className="bg-white p-4 rounded-xl border border-neutral-200 space-y-3 shadow-xs">
+                {/* 4. Subtitle "STUDENT IDENTITY CARD" / Academic Year Controls */}
+                <div className="bg-white p-4 rounded-xl border border-neutral-200 space-y-3.5 shadow-xs">
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="text-xs font-bold text-neutral-900">
-                        ចំណងជើងរងជាភាសាអង់គ្លេស (STUDENT IDENTITY CARD)
+                        ចំណងជើងរង / ឆ្នាំសិក្សា (Academic Year / Subtitle)
                       </h4>
                       <p className="text-[11px] text-neutral-500">
-                        បើក/បិទ និងកែសម្រួលទំហំអក្សររង
+                        បើក/បិទ, កែសម្រួលទំហំអក្សរ និងរំកិលទីតាំង X/Y ដោយសេរី
                       </p>
                     </div>
 
@@ -3272,22 +4146,134 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                   </div>
 
                   {template.showSubtitle !== false && (
-                    <div className="pt-2">
-                      <div className="flex justify-between items-center mb-1.5">
-                        <span className="text-xs font-bold text-neutral-700">ទំហំអក្សររង៖</span>
-                        <span className="font-mono text-xs font-bold text-indigo-700">
-                          {(template.subtitleFontSize || 6.5).toFixed(1)} px
+                    <div className="pt-2 space-y-3 border-t border-neutral-100">
+                      <div>
+                        <div className="flex justify-between items-center mb-1.5">
+                          <span className="text-xs font-bold text-neutral-700">ទំហំអក្សររង / ឆ្នាំសិក្សា៖</span>
+                          <span className="font-mono text-xs font-bold text-indigo-700">
+                            {(template.subtitleFontSize || 6.5).toFixed(1)} px
+                          </span>
+                        </div>
+                        <input
+                          type="range"
+                          min="5"
+                          max="20"
+                          step="0.5"
+                          value={template.subtitleFontSize || 6.5}
+                          onChange={(e) => handleUpdate({ subtitleFontSize: parseFloat(e.target.value) })}
+                          className="w-full accent-indigo-600"
+                        />
+                      </div>
+
+                      {/* Custom Subtitle / Academic Year Text Override */}
+                      <div>
+                        <label className="block text-[11px] font-semibold text-neutral-600 mb-1">
+                          អត្ថបទឆ្នាំសិក្សា / ចំណងជើងរង (ឧ. ឆ្នាំសិក្សា ២០២៥ -២០២៧)៖
+                        </label>
+                        <input
+                          type="text"
+                          value={template.headerSubtitleKhmer ?? ''}
+                          onChange={(e) => handleUpdate({ headerSubtitleKhmer: e.target.value })}
+                          placeholder={school.academic_year ? `ឆ្នាំសិក្សា ${school.academic_year}` : 'STUDENT IDENTITY CARD'}
+                          className="w-full text-xs px-2.5 py-1.5 border border-neutral-300 rounded-lg focus:ring-1 focus:ring-indigo-500 font-medium"
+                        />
+                        <span className="text-[10px] text-neutral-400">
+                          ប្រសិនបើទុកទំនេរ ប្រព័ន្ធនឹងយកតាមព័ត៌មានឆ្នាំសិក្សារបស់សាលាដោយស្វ័យប្រវត្តិ
                         </span>
                       </div>
-                      <input
-                        type="range"
-                        min="5"
-                        max="12"
-                        step="0.5"
-                        value={template.subtitleFontSize || 6.5}
-                        onChange={(e) => handleUpdate({ subtitleFontSize: parseFloat(e.target.value) })}
-                        className="w-full accent-indigo-600"
-                      />
+
+                      {/* Subtitle / Academic Year X & Y Offsets */}
+                      <div className="bg-indigo-50/60 p-3 rounded-lg border border-indigo-100 space-y-2.5">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-indigo-950 flex items-center gap-1.5">
+                            <span>↔️ ↕️</span>
+                            <span>រំកិលទីតាំងឆ្នាំសិក្សា (X / Y Offset)</span>
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleResetElementByName('subtitle')}
+                            className="text-[10px] text-indigo-700 hover:text-indigo-900 font-semibold underline"
+                          >
+                            កំណត់ឡើងវិញ (0, 0)
+                          </button>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <div className="flex justify-between items-center text-[11px] text-neutral-600 mb-1">
+                              <span>ឆ្វេង ⇄ ស្ដាំ (X)</span>
+                              <span className="font-mono font-bold text-indigo-700">
+                                {(template.subtitleOffsetX || 0) > 0 ? `+${template.subtitleOffsetX}` : (template.subtitleOffsetX || 0)} px
+                              </span>
+                            </div>
+                            <input
+                              type="range"
+                              min="-60"
+                              max="60"
+                              step="1"
+                              value={template.subtitleOffsetX || 0}
+                              onChange={(e) => handleUpdate({ subtitleOffsetX: parseInt(e.target.value, 10) })}
+                              className="w-full accent-indigo-600"
+                            />
+                          </div>
+
+                          <div>
+                            <div className="flex justify-between items-center text-[11px] text-neutral-600 mb-1">
+                              <span>លើ ⇅ ក្រោម (Y)</span>
+                              <span className="font-mono font-bold text-indigo-700">
+                                {(template.subtitleOffsetY || 0) > 0 ? `+${template.subtitleOffsetY}` : (template.subtitleOffsetY || 0)} px
+                              </span>
+                            </div>
+                            <input
+                              type="range"
+                              min="-60"
+                              max="60"
+                              step="1"
+                              value={template.subtitleOffsetY || 0}
+                              onChange={(e) => handleUpdate({ subtitleOffsetY: parseInt(e.target.value, 10) })}
+                              className="w-full accent-indigo-600"
+                            />
+                          </div>
+                        </div>
+
+                        {/* 4-way nudge buttons */}
+                        <div className="flex items-center justify-center gap-1.5 pt-1">
+                          <button
+                            type="button"
+                            onClick={() => handleUpdate({ subtitleOffsetX: (template.subtitleOffsetX || 0) - 1 })}
+                            className="px-2 py-1 bg-white border border-indigo-200 rounded text-[11px] font-bold text-indigo-800 hover:bg-indigo-100 shadow-2xs"
+                            title="រំកិលទៅឆ្វេង 1px"
+                          >
+                            ◀ ឆ្វេង
+                          </button>
+                          <div className="flex flex-col gap-1">
+                            <button
+                              type="button"
+                              onClick={() => handleUpdate({ subtitleOffsetY: (template.subtitleOffsetY || 0) - 1 })}
+                              className="px-2 py-0.5 bg-white border border-indigo-200 rounded text-[11px] font-bold text-indigo-800 hover:bg-indigo-100 shadow-2xs"
+                              title="រំកិលឡើងលើ 1px"
+                            >
+                              ▲ លើ
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleUpdate({ subtitleOffsetY: (template.subtitleOffsetY || 0) + 1 })}
+                              className="px-2 py-0.5 bg-white border border-indigo-200 rounded text-[11px] font-bold text-indigo-800 hover:bg-indigo-100 shadow-2xs"
+                              title="រំកិលចុះក្រោម 1px"
+                            >
+                              ▼ ក្រោម
+                            </button>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleUpdate({ subtitleOffsetX: (template.subtitleOffsetX || 0) + 1 })}
+                            className="px-2 py-1 bg-white border border-indigo-200 rounded text-[11px] font-bold text-indigo-800 hover:bg-indigo-100 shadow-2xs"
+                            title="រំកិលទៅស្ដាំ 1px"
+                          >
+                            ស្ដាំ ▶
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -4196,6 +5182,399 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                     </div>
                   </div>
                 </div>
+
+                {/* Individual Header Words Positioning */}
+                <div className="space-y-4 pt-4 border-t border-neutral-200">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <h4 className="text-xs font-bold text-neutral-900 flex items-center gap-1.5">
+                        <Move className="w-4 h-4 text-blue-600" />
+                        <span>រំកិលទីតាំងពាក្យនីមួយៗនៅក្បាលប័ណ្ណ (Move Individual Header Words & Year)</span>
+                      </h4>
+                      <p className="text-[11px] text-neutral-500">
+                        កំណត់គម្លាតរំកិលឆ្វេង-ស្តាំ (X) និងលើ-ក្រោម (Y) ដាច់ដោយឡែកពីគ្នាសម្រាប់ពាក្យនីមួយៗ
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleUpdate({
+                          headerKingdomOffsetX: 0,
+                          headerKingdomOffsetY: 0,
+                          headerMottoOffsetX: 0,
+                          headerMottoOffsetY: 0,
+                          headerMinistryOffsetX: 0,
+                          headerMinistryOffsetY: 0,
+                          headerDepartmentOffsetX: 0,
+                          headerDepartmentOffsetY: 0,
+                          headerSchoolNameOffsetX: 0,
+                          headerSchoolNameOffsetY: 0,
+                          subtitleOffsetX: 0,
+                          subtitleOffsetY: 0,
+                        })
+                      }
+                      className="text-[11px] text-neutral-600 hover:text-neutral-900 bg-neutral-100 hover:bg-neutral-200 px-2.5 py-1 rounded-lg border border-neutral-300 font-medium cursor-pointer"
+                    >
+                      ↺ កំណត់ដើមទាំងអស់
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    {/* Word 1: ព្រះរាជាណាចក្រកម្ពុជា */}
+                    <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-200 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-neutral-800">👑 «ព្រះរាជាណាចក្រកម្ពុជា»</span>
+                        <button
+                          type="button"
+                          onClick={() => handleResetElementByName('headerKingdom')}
+                          className="text-[10px] text-blue-600 hover:underline cursor-pointer"
+                        >
+                          កំណត់ដើម (0, 0)
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <div className="flex justify-between text-[11px] mb-1">
+                            <span className="text-neutral-600">ឆ្វេង-ស្តាំ (X):</span>
+                            <span className="font-mono font-bold text-blue-600">{template.headerKingdomOffsetX || 0}px</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-60"
+                            max="60"
+                            step="1"
+                            value={template.headerKingdomOffsetX || 0}
+                            onChange={(e) => handleUpdate({ headerKingdomOffsetX: parseInt(e.target.value) })}
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-[11px] mb-1">
+                            <span className="text-neutral-600">លើ-ក្រោម (Y):</span>
+                            <span className="font-mono font-bold text-blue-600">{template.headerKingdomOffsetY || 0}px</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-40"
+                            max="40"
+                            step="1"
+                            value={template.headerKingdomOffsetY || 0}
+                            onChange={(e) => handleUpdate({ headerKingdomOffsetY: parseInt(e.target.value) })}
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+                      </div>
+                      <div className="pt-1.5 border-t border-neutral-200/80">
+                        <div className="flex justify-between text-[11px] mb-1">
+                          <span className="text-neutral-700 font-medium">ទំហំអក្សរ (Font Size)៖</span>
+                          <span className="font-mono font-bold text-sky-700">{(template.headerKingdomFontSize || 8.8).toFixed(1)} px</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="5.0"
+                          max="22.0"
+                          step="0.2"
+                          value={template.headerKingdomFontSize || 8.8}
+                          onChange={(e) => handleUpdate({ headerKingdomFontSize: parseFloat(e.target.value) })}
+                          className="w-full accent-sky-600"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Word 2: ជាតិ សាសនា ព្រះមហាក្សត្រ */}
+                    <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-200 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-neutral-800">🇰🇭 «ជាតិ សាសនា ព្រះមហាក្សត្រ»</span>
+                        <button
+                          type="button"
+                          onClick={() => handleResetElementByName('headerMotto')}
+                          className="text-[10px] text-blue-600 hover:underline cursor-pointer"
+                        >
+                          កំណត់ដើម (0, 0)
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <div className="flex justify-between text-[11px] mb-1">
+                            <span className="text-neutral-600">ឆ្វេង-ស្តាំ (X):</span>
+                            <span className="font-mono font-bold text-blue-600">{template.headerMottoOffsetX || 0}px</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-60"
+                            max="60"
+                            step="1"
+                            value={template.headerMottoOffsetX || 0}
+                            onChange={(e) => handleUpdate({ headerMottoOffsetX: parseInt(e.target.value) })}
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-[11px] mb-1">
+                            <span className="text-neutral-600">លើ-ក្រោម (Y):</span>
+                            <span className="font-mono font-bold text-blue-600">{template.headerMottoOffsetY || 0}px</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-40"
+                            max="40"
+                            step="1"
+                            value={template.headerMottoOffsetY || 0}
+                            onChange={(e) => handleUpdate({ headerMottoOffsetY: parseInt(e.target.value) })}
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+                      </div>
+                      <div className="pt-1.5 border-t border-neutral-200/80">
+                        <div className="flex justify-between text-[11px] mb-1">
+                          <span className="text-neutral-700 font-medium">ទំហំអក្សរ (Font Size)៖</span>
+                          <span className="font-mono font-bold text-amber-700">{(template.headerMottoFontSize || 7.6).toFixed(1)} px</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="4.5"
+                          max="20.0"
+                          step="0.2"
+                          value={template.headerMottoFontSize || 7.6}
+                          onChange={(e) => handleUpdate({ headerMottoFontSize: parseFloat(e.target.value) })}
+                          className="w-full accent-amber-600"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Word 3: ក្រសួងអប់រំ យុវជន និងកីឡា */}
+                    <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-200 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-neutral-800">🏢 «ក្រសួងអប់រំ យុវជន និងកីឡា»</span>
+                        <button
+                          type="button"
+                          onClick={() => handleResetElementByName('headerMinistry')}
+                          className="text-[10px] text-blue-600 hover:underline cursor-pointer"
+                        >
+                          កំណត់ដើម (0, 0)
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <div className="flex justify-between text-[11px] mb-1">
+                            <span className="text-neutral-600">ឆ្វេង-ស្តាំ (X):</span>
+                            <span className="font-mono font-bold text-blue-600">{template.headerMinistryOffsetX || 0}px</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-60"
+                            max="60"
+                            step="1"
+                            value={template.headerMinistryOffsetX || 0}
+                            onChange={(e) => handleUpdate({ headerMinistryOffsetX: parseInt(e.target.value) })}
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-[11px] mb-1">
+                            <span className="text-neutral-600">លើ-ក្រោម (Y):</span>
+                            <span className="font-mono font-bold text-blue-600">{template.headerMinistryOffsetY || 0}px</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-40"
+                            max="40"
+                            step="1"
+                            value={template.headerMinistryOffsetY || 0}
+                            onChange={(e) => handleUpdate({ headerMinistryOffsetY: parseInt(e.target.value) })}
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+                      </div>
+                      <div className="pt-1.5 border-t border-neutral-200/80">
+                        <div className="flex justify-between text-[11px] mb-1">
+                          <span className="text-neutral-700 font-medium">ទំហំអក្សរក្រសួង (Font Size)៖</span>
+                          <span className="font-mono font-bold text-blue-700">{(template.headerMinistryFontSize || 7.5).toFixed(1)} px</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="5.0"
+                          max="20.0"
+                          step="0.2"
+                          value={template.headerMinistryFontSize || 7.5}
+                          onChange={(e) => handleUpdate({ headerMinistryFontSize: parseFloat(e.target.value) })}
+                          className="w-full accent-blue-600"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Word 4: មន្ទីរអប់រំ... */}
+                    <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-200 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-neutral-800">🏬 «មន្ទីរអប់រំ យុវជន និងកីឡា...»</span>
+                        <button
+                          type="button"
+                          onClick={() => handleResetElementByName('headerDepartment')}
+                          className="text-[10px] text-blue-600 hover:underline cursor-pointer"
+                        >
+                          កំណត់ដើម (0, 0)
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <div className="flex justify-between text-[11px] mb-1">
+                            <span className="text-neutral-600">ឆ្វេង-ស្តាំ (X):</span>
+                            <span className="font-mono font-bold text-blue-600">{template.headerDepartmentOffsetX || 0}px</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-60"
+                            max="60"
+                            step="1"
+                            value={template.headerDepartmentOffsetX || 0}
+                            onChange={(e) => handleUpdate({ headerDepartmentOffsetX: parseInt(e.target.value) })}
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-[11px] mb-1">
+                            <span className="text-neutral-600">លើ-ក្រោម (Y):</span>
+                            <span className="font-mono font-bold text-blue-600">{template.headerDepartmentOffsetY || 0}px</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-40"
+                            max="40"
+                            step="1"
+                            value={template.headerDepartmentOffsetY || 0}
+                            onChange={(e) => handleUpdate({ headerDepartmentOffsetY: parseInt(e.target.value) })}
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+                      </div>
+                      <div className="pt-1.5 border-t border-neutral-200/80">
+                        <div className="flex justify-between text-[11px] mb-1">
+                          <span className="text-neutral-700 font-medium">ទំហំអក្សរមន្ទីរ (Font Size)៖</span>
+                          <span className="font-mono font-bold text-blue-600">{(template.headerDepartmentFontSize || 7.0).toFixed(1)} px</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="5.0"
+                          max="14.0"
+                          step="0.2"
+                          value={template.headerDepartmentFontSize || 7.0}
+                          onChange={(e) => handleUpdate({ headerDepartmentFontSize: parseFloat(e.target.value) })}
+                          className="w-full accent-blue-600"
+                        />
+                      </div>
+                      <div className="text-[10px] text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-medium">
+                        ✓ បង្ហាញលើ ១ បន្ទាត់ជានិច្ច (Single line nowrap មិនបាក់ជួរ)
+                      </div>
+                    </div>
+
+                    {/* Word 5: ឈ្មោះវិទ្យាល័យ */}
+                    <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-200 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-neutral-800">🏫 «ឈ្មោះវិទ្យាល័យ / សាលា»</span>
+                        <button
+                          type="button"
+                          onClick={() => handleResetElementByName('headerSchoolName')}
+                          className="text-[10px] text-blue-600 hover:underline cursor-pointer"
+                        >
+                          កំណត់ដើម (0, 0)
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <div className="flex justify-between text-[11px] mb-1">
+                            <span className="text-neutral-600">ឆ្វេង-ស្តាំ (X):</span>
+                            <span className="font-mono font-bold text-blue-600">{template.headerSchoolNameOffsetX || 0}px</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-60"
+                            max="60"
+                            step="1"
+                            value={template.headerSchoolNameOffsetX || 0}
+                            onChange={(e) => handleUpdate({ headerSchoolNameOffsetX: parseInt(e.target.value) })}
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-[11px] mb-1">
+                            <span className="text-neutral-600">លើ-ក្រោម (Y):</span>
+                            <span className="font-mono font-bold text-blue-600">{template.headerSchoolNameOffsetY || 0}px</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-40"
+                            max="40"
+                            step="1"
+                            value={template.headerSchoolNameOffsetY || 0}
+                            onChange={(e) => handleUpdate({ headerSchoolNameOffsetY: parseInt(e.target.value) })}
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+                      </div>
+                      <div className="pt-1.5 border-t border-neutral-200/80">
+                        <div className="flex justify-between text-[11px] mb-1">
+                          <span className="text-neutral-700 font-medium">ទំហំអក្សរឈ្មោះសាលា (Font Size)៖</span>
+                          <span className="font-mono font-bold text-purple-700">{(template.headerSchoolNameFontSize || 8.5).toFixed(1)} px</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="5.5"
+                          max="24.0"
+                          step="0.2"
+                          value={template.headerSchoolNameFontSize || 8.5}
+                          onChange={(e) => handleUpdate({ headerSchoolNameFontSize: parseFloat(e.target.value) })}
+                          className="w-full accent-purple-600"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Word 6: ឆ្នាំសិក្សា ២០២៥-២០២៧ */}
+                    <div className="p-3 bg-blue-50/70 rounded-xl border border-blue-200 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-blue-900">📅 «ឆ្នាំសិក្សា ២០២៥-២០២៧» (Subtitle)</span>
+                        <button
+                          type="button"
+                          onClick={() => handleResetElementByName('subtitle')}
+                          className="text-[10px] text-blue-600 hover:underline cursor-pointer"
+                        >
+                          កំណត់ដើម (0, 0)
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <div className="flex justify-between text-[11px] mb-1">
+                            <span className="text-neutral-600">ឆ្វេង-ស្តាំ (X):</span>
+                            <span className="font-mono font-bold text-blue-600">{template.subtitleOffsetX || 0}px</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-60"
+                            max="60"
+                            step="1"
+                            value={template.subtitleOffsetX || 0}
+                            onChange={(e) => handleUpdate({ subtitleOffsetX: parseInt(e.target.value) })}
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-[11px] mb-1">
+                            <span className="text-neutral-600">លើ-ក្រោម (Y):</span>
+                            <span className="font-mono font-bold text-blue-600">{template.subtitleOffsetY || 0}px</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-40"
+                            max="40"
+                            step="1"
+                            value={template.subtitleOffsetY || 0}
+                            onChange={(e) => handleUpdate({ subtitleOffsetY: parseInt(e.target.value) })}
+                            className="w-full accent-blue-600"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -4400,17 +5779,17 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                       </div>
                       <input
                         type="range"
-                        min="0.85"
-                        max="1.30"
+                        min="0.6"
+                        max="2.0"
                         step="0.05"
                         value={template.infoScale || 1.0}
                         onChange={(e) => handleUpdate({ infoScale: parseFloat(e.target.value) })}
                         className="w-full accent-blue-600 h-1.5 bg-blue-200 rounded cursor-pointer"
                       />
                       <div className="flex justify-between text-[9px] text-neutral-400 mt-0.5">
-                        <span>85%</span>
+                        <span>60%</span>
                         <span>100%</span>
-                        <span>130%</span>
+                        <span>200% (ធំខ្លាំង)</span>
                       </div>
                     </div>
                   </div>
@@ -4770,17 +6149,17 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                       </div>
                       <input
                         type="range"
-                        min="0.5"
-                        max="2.5"
+                        min="0.4"
+                        max="3.5"
                         step="0.05"
                         value={template.photoZoom || 1}
                         onChange={(e) => handleUpdate({ photoZoom: parseFloat(e.target.value) })}
                         className="w-full accent-blue-600"
                       />
                       <div className="flex justify-between text-[10px] text-neutral-400 mt-0.5">
-                        <span>50%</span>
+                        <span>40%</span>
                         <span>100%</span>
-                        <span>250%</span>
+                        <span>350% (ធំខ្លាំង)</span>
                       </div>
                     </div>
                   </div>
@@ -4788,7 +6167,7 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                   {/* Zoom presets */}
                   <div className="flex items-center gap-1.5 pt-1">
                     <span className="text-[10px] text-neutral-600 font-medium">Zoom រហ័ស៖</span>
-                    {[0.8, 1.0, 1.1, 1.25, 1.5].map((z) => (
+                    {[0.8, 1.0, 1.25, 1.5, 2.0, 2.5].map((z) => (
                       <button
                         key={z}
                         type="button"
@@ -5550,15 +6929,51 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                 <span>បន្ទាត់កាត់</span>
               </label>
 
-              <select
-                value={previewScale}
-                onChange={(e) => setPreviewScale(parseFloat(e.target.value))}
-                className="text-[11px] border border-neutral-300 rounded px-1.5 py-1 bg-white"
-              >
-                <option value="0.85">85%</option>
-                <option value="1">100%</option>
-                <option value="1.15">115%</option>
-              </select>
+              {/* Interactive Zoom Controls: up to 250% */}
+              <div className="flex items-center gap-1 bg-white border border-neutral-300 rounded px-1.5 py-0.5 shadow-2xs">
+                <button
+                  type="button"
+                  onClick={() => setPreviewScale((s) => Math.max(0.5, parseFloat((s - 0.15).toFixed(2))))}
+                  className="w-5 h-5 flex items-center justify-center text-xs text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 rounded font-bold cursor-pointer transition-colors"
+                  title="បង្រួមមើលកាត (-15%)"
+                >
+                  −
+                </button>
+                <select
+                  value={previewScale}
+                  onChange={(e) => setPreviewScale(parseFloat(e.target.value))}
+                  className="text-[11px] border-0 outline-hidden bg-transparent font-mono font-bold text-neutral-800 cursor-pointer"
+                >
+                  <option value="0.6">60%</option>
+                  <option value="0.75">75%</option>
+                  <option value="0.85">85%</option>
+                  <option value="1">100%</option>
+                  <option value="1.15">115%</option>
+                  <option value="1.3">130%</option>
+                  <option value="1.5">150% (ធំ)</option>
+                  <option value="1.75">175% (ធំ)</option>
+                  <option value="2">200% (ធំខ្លាំង)</option>
+                  <option value="2.5">250% (អតិបរមា)</option>
+                </select>
+                <button
+                  type="button"
+                  onClick={() => setPreviewScale((s) => Math.min(2.5, parseFloat((s + 0.15).toFixed(2))))}
+                  className="w-5 h-5 flex items-center justify-center text-xs text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 rounded font-bold cursor-pointer transition-colors"
+                  title="ពង្រីកមើលកាត (+15%)"
+                >
+                  +
+                </button>
+                {previewScale !== 1 && (
+                  <button
+                    type="button"
+                    onClick={() => setPreviewScale(1)}
+                    className="ml-0.5 text-[10px] text-blue-600 hover:underline px-1 py-0.5 font-bold cursor-pointer"
+                    title="កំណត់ទៅ 100%"
+                  >
+                    100%
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 
@@ -5598,6 +7013,14 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
                     setActiveTab('photo');
                   } else if (el === 'stamp') {
                     setActiveTab('footer');
+                  } else if (el === 'title' || el === 'subtitle') {
+                    if (activeTab !== 'positioning' && activeTab !== 'title') {
+                      setActiveTab('positioning');
+                    }
+                  } else if (['header', 'headerKingdom', 'headerMotto', 'headerMinistry', 'headerDepartment', 'headerSchoolName'].includes(el)) {
+                    if (activeTab !== 'positioning' && activeTab !== 'header') {
+                      setActiveTab('positioning');
+                    }
                   } else {
                     setActiveTab('positioning');
                   }

@@ -52,6 +52,27 @@ export interface CardTemplateConfig {
   headerSubtitleKhmer: string;
   headerOffsetY: number;
   headerScale: number;
+  // Individual Header Words Positioning (រំកិលពាក្យនីមួយៗនៅក្បាលប័ណ្ណ)
+  headerKingdomOffsetX?: number;
+  headerKingdomOffsetY?: number;
+  headerMottoOffsetX?: number;
+  headerMottoOffsetY?: number;
+  headerMinistryOffsetX?: number;
+  headerMinistryOffsetY?: number;
+  headerDepartmentOffsetX?: number;
+  headerDepartmentOffsetY?: number;
+  headerSchoolNameOffsetX?: number;
+  headerSchoolNameOffsetY?: number;
+  headerDepartmentFontSize?: number;
+  headerMinistryFontSize?: number;
+  headerSchoolNameFontSize?: number;
+  headerKingdomFontSize?: number;
+  headerMottoFontSize?: number;
+  headerKingdomKhmer?: string;
+  headerMottoKhmer?: string;
+  headerDepartmentKhmer?: string;
+  headerMinistryKhmer?: string;
+  headerSchoolNameKhmer?: string;
   logoPosition: 'left' | 'center';
   logoSize: 'small' | 'medium' | 'large';
   logoOffsetX: number;
@@ -221,9 +242,21 @@ export interface Student {
   created_at?: string;
 }
 
-export type CardGridMode = '6-per-page' | '8-per-page';
+export type PaperSize =
+  | 'a4-portrait'
+  | 'a4-landscape'
+  | 'a3-portrait'
+  | 'a3-landscape'
+  | 'letter'
+  | 'card-direct';
+
+export type PrintScaleMode = 'true-size-100' | 'fit-grid';
+
+export type CardGridMode = 'true-size-auto' | '6-per-page' | '8-per-page';
 
 export interface PrintOptions {
+  scaleMode: PrintScaleMode;
+  paperSize: PaperSize;
   gridMode: CardGridMode;
   showCutLines: boolean;
   showCropMarks: boolean;
@@ -231,6 +264,7 @@ export interface PrintOptions {
   showStamp?: boolean;
   borderStyle: 'solid' | 'dashed' | 'dotted' | 'none';
   scale: number;
+  gapMm?: number;
 }
 
 export interface SupabaseConfig {

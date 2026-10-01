@@ -6,10 +6,8 @@ import {
   EyeOff,
   ShieldCheck,
   LogIn,
-  KeyRound,
   AlertCircle,
   ExternalLink,
-  Sparkles,
   Smartphone,
   CheckCircle2,
 } from 'lucide-react';
@@ -39,7 +37,6 @@ export const LoginView: React.FC<LoginViewProps> = ({
     e.preventDefault();
     setError(null);
     setIsSubmitting(true);
-
     try {
       const res = await login(username, password, rememberMe);
       if (res.success && res.user) {
@@ -52,12 +49,6 @@ export const LoginView: React.FC<LoginViewProps> = ({
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleQuickFill = () => {
-    setUsername('admin');
-    setPassword('admin123');
-    setError(null);
   };
 
   return (
@@ -129,7 +120,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
                   autoFocus
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="admin"
+                  placeholder="បញ្ចូលឈ្មោះគណនី..."
                   className="w-full pl-10 pr-4 py-2.5 bg-neutral-50 border border-neutral-300 rounded-xl text-xs sm:text-sm font-medium text-neutral-800 placeholder:text-neutral-400 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-hidden transition-all"
                 />
               </div>
@@ -149,7 +140,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="បញ្ចូលពាក្យសម្ងាត់..."
                   className="w-full pl-10 pr-10 py-2.5 bg-neutral-50 border border-neutral-300 rounded-xl text-xs sm:text-sm font-medium text-neutral-800 placeholder:text-neutral-400 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-hidden transition-all"
                 />
                 <button
@@ -192,37 +183,9 @@ export const LoginView: React.FC<LoginViewProps> = ({
             </button>
           </form>
 
-          {/* Quick Fill Helper for Demo / First Time */}
-          <div className="mt-5 p-3.5 bg-neutral-50 rounded-2xl border border-neutral-200/80 text-xs">
-            <div className="flex items-center justify-between mb-1.5">
-              <div className="flex items-center gap-1.5 font-bold text-neutral-700">
-                <KeyRound className="w-3.5 h-3.5 text-blue-600" />
-                <span>គណនីដើមសម្រាប់ប្រើប្រាស់ (Default Admin)</span>
-              </div>
-              <button
-                type="button"
-                onClick={handleQuickFill}
-                className="text-[11px] font-bold text-blue-600 hover:text-blue-800 hover:underline inline-flex items-center gap-0.5"
-              >
-                <Sparkles className="w-3 h-3" />
-                <span>បំពេញភ្លាម</span>
-              </button>
-            </div>
-            <div className="flex items-center justify-between text-[11px] text-neutral-500 font-mono bg-white p-2 rounded-lg border border-neutral-200">
-              <div>
-                <span>User: </span>
-                <span className="font-bold text-neutral-800">admin</span>
-              </div>
-              <div>
-                <span>Pass: </span>
-                <span className="font-bold text-neutral-800">admin123</span>
-              </div>
-            </div>
-          </div>
-
           {/* Public Digital Card Bypass Link */}
           {onOpenPublicDigitalCard && (
-            <div className="mt-4 pt-4 border-t border-neutral-200/80 text-center">
+            <div className="mt-5 pt-4 border-t border-neutral-200/80 text-center">
               <p className="text-[11px] text-neutral-500 mb-2">
                 តើអ្នកគ្រាន់តែចង់ស្កេន ឬផ្ទៀងផ្ទាត់ប័ណ្ណសិស្សមែនទេ?
               </p>

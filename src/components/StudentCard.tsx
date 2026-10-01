@@ -19,8 +19,27 @@ interface StudentCardProps {
   showBackSide?: boolean;
   scale?: number;
   className?: string;
-  activeHighlightElement?: 'card' | 'logo' | 'header' | 'title' | 'photo' | 'info' | 'stamp' | 'signature' | 'qr' | 'date' | 'principalTitle' | 'principalName' | null;
-  onSelectElement?: (element: 'card' | 'logo' | 'header' | 'title' | 'photo' | 'info' | 'stamp' | 'signature' | 'qr' | 'date' | 'principalTitle' | 'principalName') => void;
+  activeHighlightElement?:
+    | 'card'
+    | 'logo'
+    | 'header'
+    | 'headerKingdom'
+    | 'headerMotto'
+    | 'headerMinistry'
+    | 'headerDepartment'
+    | 'headerSchoolName'
+    | 'title'
+    | 'subtitle'
+    | 'photo'
+    | 'info'
+    | 'stamp'
+    | 'signature'
+    | 'qr'
+    | 'date'
+    | 'principalTitle'
+    | 'principalName'
+    | null;
+  onSelectElement?: (element: any) => void;
   onNudgeElement?: (element: string, dx: number, dy: number) => void;
   onUpdateOffset?: (element: string, offsetX: number, offsetY: number) => void;
   onResetElement?: (element: string) => void;
@@ -90,6 +109,90 @@ export const StudentCard: React.FC<StudentCardProps> = ({
     window.addEventListener('mouseup', handlePointerUp);
     window.addEventListener('touchmove', handlePointerMove, { passive: false });
     window.addEventListener('touchend', handlePointerUp);
+  };
+
+  // Reusable floating quick-nudge toolbar for any active element
+  const renderNudgeToolbar = (
+    elementName: string,
+    curX: number,
+    curY: number,
+    placement: 'top' | 'bottom' = 'top'
+  ) => {
+    if (activeHighlightElement !== elementName || (!onNudgeElement && !onUpdateOffset)) return null;
+    return (
+      <div
+        className={`absolute ${placement === 'top' ? '-top-7' : '-bottom-7'} left-1/2 -translate-x-1/2 flex items-center gap-0.5 bg-slate-900/95 text-white px-1.5 py-0.5 rounded-md shadow-xl border border-blue-400/60 z-50 pointer-events-auto whitespace-nowrap text-[9px] font-sans`}
+        onClick={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+      >
+        <span className="font-mono text-[8px] text-blue-300 px-1">
+          X:{curX} Y:{curY}
+        </span>
+        <button
+          type="button"
+          onClick={() => onNudgeElement ? onNudgeElement(elementName, -2, 0) : onUpdateOffset?.(elementName, curX - 2, curY)}
+          className="w-4 h-4 flex items-center justify-center rounded hover:bg-blue-600 text-white font-bold cursor-pointer transition-colors active:scale-90"
+          title="រំកិលឆ្វេង"
+        >
+          ◀
+        </button>
+        <button
+          type="button"
+          onClick={() => onNudgeElement ? onNudgeElement(elementName, 0, -2) : onUpdateOffset?.(elementName, curX, curY - 2)}
+          className="w-4 h-4 flex items-center justify-center rounded hover:bg-blue-600 text-white font-bold cursor-pointer transition-colors active:scale-90"
+          title="រំកិលឡើង"
+        >
+          ▲
+        </button>
+        <button
+          type="button"
+          onClick={() => onNudgeElement ? onNudgeElement(elementName, 0, 2) : onUpdateOffset?.(elementName, curX, curY + 2)}
+          className="w-4 h-4 flex items-center justify-center rounded hover:bg-blue-600 text-white font-bold cursor-pointer transition-colors active:scale-90"
+          title="រំកិលចុះ"
+        >
+          ▼
+        </button>
+        <button
+          type="button"
+          onClick={() => onNudgeElement ? onNudgeElement(elementName, 2, 0) : onUpdateOffset?.(elementName, curX + 2, curY)}
+          className="w-4 h-4 flex items-center justify-center rounded hover:bg-blue-600 text-white font-bold cursor-pointer transition-colors active:scale-90"
+          title="រំកិលស្តាំ"
+        >
+          ▶
+        </button>
+        {onResetElement && (
+          <button
+            type="button"
+            onClick={() => onResetElement(elementName)}
+            className="px-1 h-4 flex items-center justify-center rounded bg-blue-700/80 hover:bg-blue-500 text-white font-mono text-[7.5px] cursor-pointer ml-0.5 transition-colors"
+            title="កំណត់ដើម (0, 0)"
+          >
+            ↺0
+          </button>
+        )}
+        {onUpdateSize && (
+          <div className="flex items-center gap-0.5 border-l border-slate-700 pl-1 ml-0.5">
+            <button
+              type="button"
+              onClick={() => onUpdateSize(elementName, -1)}
+              className="px-1 h-4 flex items-center justify-center rounded hover:bg-blue-600 text-white font-bold cursor-pointer transition-colors active:scale-90"
+              title="បន្ថយទំហំអក្សរ (A-)"
+            >
+              A-
+            </button>
+            <button
+              type="button"
+              onClick={() => onUpdateSize(elementName, 1)}
+              className="px-1 h-4 flex items-center justify-center rounded hover:bg-blue-600 text-white font-bold cursor-pointer transition-colors active:scale-90"
+              title="ពង្រីកទំហំអក្សរ (A+)"
+            >
+              A+
+            </button>
+          </div>
+        )}
+      </div>
+    );
   };
 
   const borderClasses = {
@@ -607,25 +710,120 @@ export const StudentCard: React.FC<StudentCardProps> = ({
                       <MoEYSEmblem size={32} />
                     )}
                   </div>
-                  <p className="font-kantumruy font-bold text-[7.4px] text-slate-800 leading-tight">
-                    {school.ministry_name || 'ក្រសួងអប់រំ យុវជន និងកីឡា'}
+                  <p
+                    onClick={(e) => {
+                      if (onSelectElement) {
+                        e.stopPropagation();
+                        onSelectElement('headerMinistry');
+                      }
+                    }}
+                    onMouseDown={(e) => handleStartDrag(e, 'headerMinistry', cfg.headerMinistryOffsetX || 0, cfg.headerMinistryOffsetY || 0)}
+                    onTouchStart={(e) => handleStartDrag(e, 'headerMinistry', cfg.headerMinistryOffsetX || 0, cfg.headerMinistryOffsetY || 0)}
+                    className={`font-kantumruy font-bold text-[7.4px] text-slate-800 leading-tight inline-block relative transition-all whitespace-nowrap select-none ${
+                      activeHighlightElement === 'headerMinistry'
+                        ? 'ring-2 ring-blue-500 rounded px-1 bg-blue-50/50 cursor-move z-30'
+                        : onSelectElement ? 'hover:outline hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
+                    }`}
+                    style={{
+                      transform: `translate(${cfg.headerMinistryOffsetX || 0}px, ${cfg.headerMinistryOffsetY || 0}px)`,
+                      fontSize: cfg.headerMinistryFontSize ? `${cfg.headerMinistryFontSize}px` : undefined,
+                    }}
+                  >
+                    {cfg.headerMinistryKhmer || school.ministry_name || 'ក្រសួងអប់រំ យុវជន និងកីឡា'}
+                    {renderNudgeToolbar('headerMinistry', cfg.headerMinistryOffsetX || 0, cfg.headerMinistryOffsetY || 0)}
                   </p>
-                  <p className="font-kantumruy text-[7.0px] text-slate-700 leading-tight mt-[1px]">
-                    {school.department_name || 'មន្ទីរអប់រំ យុវជន និងកីឡាខេត្តបាត់ដំបង'}
+                  <p
+                    onClick={(e) => {
+                      if (onSelectElement) {
+                        e.stopPropagation();
+                        onSelectElement('headerDepartment');
+                      }
+                    }}
+                    onMouseDown={(e) => handleStartDrag(e, 'headerDepartment', cfg.headerDepartmentOffsetX || 0, cfg.headerDepartmentOffsetY || 0)}
+                    onTouchStart={(e) => handleStartDrag(e, 'headerDepartment', cfg.headerDepartmentOffsetX || 0, cfg.headerDepartmentOffsetY || 0)}
+                    className={`font-kantumruy text-[7.0px] text-slate-700 leading-tight mt-[1px] inline-block relative transition-all whitespace-nowrap select-none ${
+                      activeHighlightElement === 'headerDepartment'
+                        ? 'ring-2 ring-blue-500 rounded px-1 bg-blue-50/50 cursor-move z-30'
+                        : onSelectElement ? 'hover:outline hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
+                    }`}
+                    style={{
+                      transform: `translate(${cfg.headerDepartmentOffsetX || 0}px, ${cfg.headerDepartmentOffsetY || 0}px)`,
+                      fontSize: cfg.headerDepartmentFontSize ? `${cfg.headerDepartmentFontSize}px` : undefined,
+                    }}
+                  >
+                    {cfg.headerDepartmentKhmer || school.department_name || 'មន្ទីរអប់រំ យុវជន និងកីឡាខេត្តបាត់ដំបង'}
+                    {renderNudgeToolbar('headerDepartment', cfg.headerDepartmentOffsetX || 0, cfg.headerDepartmentOffsetY || 0)}
                   </p>
-                  <h2 className="font-muol text-[8.2px] text-slate-900 leading-tight mt-[1px]">
-                    {school.school_name || 'វិទ្យាល័យកំរៀង'}
+                  <h2
+                    onClick={(e) => {
+                      if (onSelectElement) {
+                        e.stopPropagation();
+                        onSelectElement('headerSchoolName');
+                      }
+                    }}
+                    onMouseDown={(e) => handleStartDrag(e, 'headerSchoolName', cfg.headerSchoolNameOffsetX || 0, cfg.headerSchoolNameOffsetY || 0)}
+                    onTouchStart={(e) => handleStartDrag(e, 'headerSchoolName', cfg.headerSchoolNameOffsetX || 0, cfg.headerSchoolNameOffsetY || 0)}
+                    className={`font-muol text-[8.2px] text-slate-900 leading-tight mt-[1px] inline-block relative transition-all whitespace-nowrap select-none ${
+                      activeHighlightElement === 'headerSchoolName'
+                        ? 'ring-2 ring-blue-500 rounded px-1 bg-blue-50/50 cursor-move z-30'
+                        : onSelectElement ? 'hover:outline hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
+                    }`}
+                    style={{
+                      transform: `translate(${cfg.headerSchoolNameOffsetX || 0}px, ${cfg.headerSchoolNameOffsetY || 0}px)`,
+                      fontSize: cfg.headerSchoolNameFontSize ? `${cfg.headerSchoolNameFontSize}px` : undefined,
+                    }}
+                  >
+                    {cfg.headerSchoolNameKhmer || school.school_name || 'វិទ្យាល័យកំរៀង'}
+                    {renderNudgeToolbar('headerSchoolName', cfg.headerSchoolNameOffsetX || 0, cfg.headerSchoolNameOffsetY || 0)}
                   </h2>
                 </div>
 
                 {/* Top-Right: Royal Motto & QR Code */}
                 <div className="flex flex-col items-center shrink-0">
                   <div className="text-center">
-                    <h1 className="font-muol text-[8.8px] text-blue-950 leading-tight">
-                      ព្រះរាជាណាចក្រកម្ពុជា
+                    <h1
+                      onClick={(e) => {
+                        if (onSelectElement) {
+                          e.stopPropagation();
+                          onSelectElement('headerKingdom');
+                        }
+                      }}
+                      onMouseDown={(e) => handleStartDrag(e, 'headerKingdom', cfg.headerKingdomOffsetX || 0, cfg.headerKingdomOffsetY || 0)}
+                      onTouchStart={(e) => handleStartDrag(e, 'headerKingdom', cfg.headerKingdomOffsetX || 0, cfg.headerKingdomOffsetY || 0)}
+                      className={`font-muol text-[8.8px] text-blue-950 leading-tight inline-block relative transition-all whitespace-nowrap select-none ${
+                        activeHighlightElement === 'headerKingdom'
+                          ? 'ring-2 ring-blue-500 rounded px-1 bg-blue-50/50 cursor-move z-30'
+                          : onSelectElement ? 'hover:outline hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
+                      }`}
+                      style={{
+                        transform: `translate(${cfg.headerKingdomOffsetX || 0}px, ${cfg.headerKingdomOffsetY || 0}px)`,
+                        fontSize: cfg.headerKingdomFontSize ? `${cfg.headerKingdomFontSize}px` : undefined,
+                      }}
+                    >
+                      {cfg.headerKingdomKhmer || 'ព្រះរាជាណាចក្រកម្ពុជា'}
+                      {renderNudgeToolbar('headerKingdom', cfg.headerKingdomOffsetX || 0, cfg.headerKingdomOffsetY || 0)}
                     </h1>
-                    <p className="font-muol text-[7.6px] text-blue-950 leading-tight mt-[1px]">
-                      ជាតិ សាសនា ព្រះមហាក្សត្រ
+                    <p
+                      onClick={(e) => {
+                        if (onSelectElement) {
+                          e.stopPropagation();
+                          onSelectElement('headerMotto');
+                        }
+                      }}
+                      onMouseDown={(e) => handleStartDrag(e, 'headerMotto', cfg.headerMottoOffsetX || 0, cfg.headerMottoOffsetY || 0)}
+                      onTouchStart={(e) => handleStartDrag(e, 'headerMotto', cfg.headerMottoOffsetX || 0, cfg.headerMottoOffsetY || 0)}
+                      className={`font-muol text-[7.6px] text-blue-950 leading-tight mt-[1px] inline-block relative transition-all whitespace-nowrap select-none ${
+                        activeHighlightElement === 'headerMotto'
+                          ? 'ring-2 ring-blue-500 rounded px-1 bg-blue-50/50 cursor-move z-30'
+                          : onSelectElement ? 'hover:outline hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
+                      }`}
+                      style={{
+                        transform: `translate(${cfg.headerMottoOffsetX || 0}px, ${cfg.headerMottoOffsetY || 0}px)`,
+                        fontSize: cfg.headerMottoFontSize ? `${cfg.headerMottoFontSize}px` : undefined,
+                      }}
+                    >
+                      {cfg.headerMottoKhmer || 'ជាតិ សាសនា ព្រះមហាក្សត្រ'}
+                      {renderNudgeToolbar('headerMotto', cfg.headerMottoOffsetX || 0, cfg.headerMottoOffsetY || 0)}
                     </p>
                   </div>
                   {/* QR Code Container in Top-Right Corner */}
@@ -654,21 +852,21 @@ export const StudentCard: React.FC<StudentCardProps> = ({
 
               {/* Title: «ប័ណ្ណសម្គាល់ខ្លួនសិស្ស» & Academic Year */}
               {(cfg.showTitleBanner !== false) && (
-                <div
-                  onClick={(e) => {
-                    if (onSelectElement) {
-                      e.stopPropagation();
-                      onSelectElement('title');
-                    }
-                  }}
-                  className={`text-center mt-1 mb-1 transition-all relative ${
-                    activeHighlightElement === 'title'
-                      ? 'ring-2 ring-blue-500 rounded p-1 cursor-pointer'
-                      : onSelectElement ? 'hover:outline-1 hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
-                  }`}
-                >
+                <div className="text-center mt-1 mb-1 transition-all relative">
                   <h3
-                    className="font-muol leading-tight inline-block"
+                    onClick={(e) => {
+                      if (onSelectElement) {
+                        e.stopPropagation();
+                        onSelectElement('title');
+                      }
+                    }}
+                    onMouseDown={(e) => handleStartDrag(e, 'title', cfg.titleOffsetX || 0, cfg.titleOffsetY || 0)}
+                    onTouchStart={(e) => handleStartDrag(e, 'title', cfg.titleOffsetX || 0, cfg.titleOffsetY || 0)}
+                    className={`font-muol leading-tight inline-block relative transition-all ${
+                      activeHighlightElement === 'title'
+                        ? 'ring-2 ring-blue-500 rounded px-1 cursor-move z-30 select-none'
+                        : onSelectElement ? 'hover:outline hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
+                    }`}
                     style={{
                       color: cfg.titleBannerTextColor || '#b45309',
                       fontSize: `${cfg.titleFontSize || 11.5}px`,
@@ -676,18 +874,34 @@ export const StudentCard: React.FC<StudentCardProps> = ({
                     }}
                   >
                     {cfg.headerTitleKhmer || school.card_title || 'ប័ណ្ណសម្គាល់ខ្លួនសិស្ស'}
+                    {renderNudgeToolbar('title', cfg.titleOffsetX || 0, cfg.titleOffsetY || 0)}
                   </h3>
                   {(cfg.showSubtitle !== false) && (
-                    <p
-                      className="font-kantumruy font-bold leading-tight mt-[1px]"
-                      style={{
-                        color: '#2563eb',
-                        fontSize: `${cfg.subtitleFontSize || 7.8}px`,
-                        transform: `translate(${cfg.subtitleOffsetX || 0}px, ${cfg.subtitleOffsetY || 0}px)`,
-                      }}
-                    >
-                      {cfg.headerSubtitleKhmer || school.academic_year || 'ឆ្នាំសិក្សា ២០២៥-២០២៦'}
-                    </p>
+                    <div className="block">
+                      <p
+                        onClick={(e) => {
+                          if (onSelectElement) {
+                            e.stopPropagation();
+                            onSelectElement('subtitle');
+                          }
+                        }}
+                        onMouseDown={(e) => handleStartDrag(e, 'subtitle', cfg.subtitleOffsetX || 0, cfg.subtitleOffsetY || 0)}
+                        onTouchStart={(e) => handleStartDrag(e, 'subtitle', cfg.subtitleOffsetX || 0, cfg.subtitleOffsetY || 0)}
+                        className={`font-kantumruy font-bold leading-tight mt-[1px] inline-block relative transition-all ${
+                          activeHighlightElement === 'subtitle'
+                            ? 'ring-2 ring-blue-500 rounded px-1 bg-blue-50/50 cursor-move z-30 select-none'
+                            : onSelectElement ? 'hover:outline hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
+                        }`}
+                        style={{
+                          color: '#2563eb',
+                          fontSize: `${cfg.subtitleFontSize || 7.8}px`,
+                          transform: `translate(${cfg.subtitleOffsetX || 0}px, ${cfg.subtitleOffsetY || 0}px)`,
+                        }}
+                      >
+                        {cfg.headerSubtitleKhmer || school.academic_year || 'ឆ្នាំសិក្សា ២០២៥-២០២៦'}
+                        {renderNudgeToolbar('subtitle', cfg.subtitleOffsetX || 0, cfg.subtitleOffsetY || 0)}
+                      </p>
+                    </div>
                   )}
                 </div>
               )}
@@ -755,7 +969,7 @@ export const StudentCard: React.FC<StudentCardProps> = ({
                 <div className="flex items-baseline shrink-0">
                   <span className="font-semibold text-slate-800 shrink-0">លេខទូរស័ព្ទ:</span>
                   <span className="font-mono text-[#2563eb] ml-1 shrink-0">
-                    {formatPhoneNumber(student.parent_phone || student.phone_number || student.student_phone) || '_________________'}
+                    {formatPhoneNumber(student.student_phone || '') || '_________________'}
                   </span>
                 </div>
                 <div className="flex items-baseline shrink-0 ml-auto pl-1 whitespace-nowrap overflow-visible">
@@ -1161,45 +1375,140 @@ export const StudentCard: React.FC<StudentCardProps> = ({
               {/* Ministry & Kingdom Headers */}
               <div className={cfg.logoPosition === 'center' ? 'text-center w-full' : 'text-center pr-1'}>
                 {cfg.showRoyalMotto && (
-                  <>
+                  <div className="flex flex-col items-center">
                     <h1
-                      className="font-muol text-[9.2px] leading-tight"
-                      style={{ color: cfg.primaryColor || '#0c4a6e' }}
+                      onClick={(e) => {
+                        if (onSelectElement) {
+                          e.stopPropagation();
+                          onSelectElement('headerKingdom');
+                        }
+                      }}
+                      onMouseDown={(e) => handleStartDrag(e, 'headerKingdom', cfg.headerKingdomOffsetX || 0, cfg.headerKingdomOffsetY || 0)}
+                      onTouchStart={(e) => handleStartDrag(e, 'headerKingdom', cfg.headerKingdomOffsetX || 0, cfg.headerKingdomOffsetY || 0)}
+                      className={`font-muol text-[9.2px] leading-tight inline-block relative transition-all whitespace-nowrap select-none ${
+                        activeHighlightElement === 'headerKingdom'
+                          ? 'ring-2 ring-blue-500 rounded px-1 bg-blue-50/50 cursor-move z-30'
+                          : onSelectElement ? 'hover:outline hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
+                      }`}
+                      style={{
+                        color: cfg.primaryColor || '#0c4a6e',
+                        transform: `translate(${cfg.headerKingdomOffsetX || 0}px, ${cfg.headerKingdomOffsetY || 0}px)`,
+                        fontSize: cfg.headerKingdomFontSize ? `${cfg.headerKingdomFontSize}px` : undefined,
+                      }}
                     >
-                      ព្រះរាជាណាចក្រកម្ពុជា
+                      {cfg.headerKingdomKhmer || 'ព្រះរាជាណាចក្រកម្ពុជា'}
+                      {renderNudgeToolbar('headerKingdom', cfg.headerKingdomOffsetX || 0, cfg.headerKingdomOffsetY || 0)}
                     </h1>
                     <p
-                      className="font-muol text-[7.6px] leading-tight mt-[1px]"
-                      style={{ color: cfg.secondaryColor || '#b45309' }}
+                      onClick={(e) => {
+                        if (onSelectElement) {
+                          e.stopPropagation();
+                          onSelectElement('headerMotto');
+                        }
+                      }}
+                      onMouseDown={(e) => handleStartDrag(e, 'headerMotto', cfg.headerMottoOffsetX || 0, cfg.headerMottoOffsetY || 0)}
+                      onTouchStart={(e) => handleStartDrag(e, 'headerMotto', cfg.headerMottoOffsetX || 0, cfg.headerMottoOffsetY || 0)}
+                      className={`font-muol text-[7.6px] leading-tight mt-[1px] inline-block relative transition-all whitespace-nowrap select-none ${
+                        activeHighlightElement === 'headerMotto'
+                          ? 'ring-2 ring-blue-500 rounded px-1 bg-blue-50/50 cursor-move z-30'
+                          : onSelectElement ? 'hover:outline hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
+                      }`}
+                      style={{
+                        color: cfg.secondaryColor || '#b45309',
+                        transform: `translate(${cfg.headerMottoOffsetX || 0}px, ${cfg.headerMottoOffsetY || 0}px)`,
+                        fontSize: cfg.headerMottoFontSize ? `${cfg.headerMottoFontSize}px` : undefined,
+                      }}
                     >
-                      ជាតិ សាសនា ព្រះមហាក្សត្រ
+                      {cfg.headerMottoKhmer || 'ជាតិ សាសនា ព្រះមហាក្សត្រ'}
+                      {renderNudgeToolbar('headerMotto', cfg.headerMottoOffsetX || 0, cfg.headerMottoOffsetY || 0)}
                     </p>
                     <div
                       className="w-12 h-[1px] mx-auto my-[2px]"
                       style={{ backgroundColor: cfg.secondaryColor || '#b45309', opacity: 0.7 }}
                     />
-                  </>
+                  </div>
                 )}
 
                 {cfg.showMinistry && (
-                  <p className="font-kantumruy font-semibold text-[7.5px] text-neutral-800 leading-tight">
-                    {school.ministry_name || 'ក្រសួងអប់រំ យុវជន និងកីឡា'}
-                  </p>
+                  <div>
+                    <p
+                      onClick={(e) => {
+                        if (onSelectElement) {
+                          e.stopPropagation();
+                          onSelectElement('headerMinistry');
+                        }
+                      }}
+                      onMouseDown={(e) => handleStartDrag(e, 'headerMinistry', cfg.headerMinistryOffsetX || 0, cfg.headerMinistryOffsetY || 0)}
+                      onTouchStart={(e) => handleStartDrag(e, 'headerMinistry', cfg.headerMinistryOffsetX || 0, cfg.headerMinistryOffsetY || 0)}
+                      className={`font-kantumruy font-semibold text-[7.5px] text-neutral-800 leading-tight inline-block relative transition-all whitespace-nowrap select-none ${
+                        activeHighlightElement === 'headerMinistry'
+                          ? 'ring-2 ring-blue-500 rounded px-1 bg-blue-50/50 cursor-move z-30'
+                          : onSelectElement ? 'hover:outline hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
+                      }`}
+                      style={{
+                        transform: `translate(${cfg.headerMinistryOffsetX || 0}px, ${cfg.headerMinistryOffsetY || 0}px)`,
+                        fontSize: cfg.headerMinistryFontSize ? `${cfg.headerMinistryFontSize}px` : undefined,
+                      }}
+                    >
+                      {cfg.headerMinistryKhmer || school.ministry_name || 'ក្រសួងអប់រំ យុវជន និងកីឡា'}
+                      {renderNudgeToolbar('headerMinistry', cfg.headerMinistryOffsetX || 0, cfg.headerMinistryOffsetY || 0)}
+                    </p>
+                  </div>
                 )}
 
                 {cfg.showDepartment && (
-                  <p className="font-kantumruy text-[6.8px] text-neutral-600 leading-tight">
-                    {school.department_name || 'មន្ទីរអប់រំ យុវជន និងកីឡាខេត្តកំពង់ចាម'}
-                  </p>
+                  <div>
+                    <p
+                      onClick={(e) => {
+                        if (onSelectElement) {
+                          e.stopPropagation();
+                          onSelectElement('headerDepartment');
+                        }
+                      }}
+                      onMouseDown={(e) => handleStartDrag(e, 'headerDepartment', cfg.headerDepartmentOffsetX || 0, cfg.headerDepartmentOffsetY || 0)}
+                      onTouchStart={(e) => handleStartDrag(e, 'headerDepartment', cfg.headerDepartmentOffsetX || 0, cfg.headerDepartmentOffsetY || 0)}
+                      className={`font-kantumruy text-[6.8px] text-neutral-600 leading-tight inline-block relative transition-all whitespace-nowrap select-none ${
+                        activeHighlightElement === 'headerDepartment'
+                          ? 'ring-2 ring-blue-500 rounded px-1 bg-blue-50/50 cursor-move z-30'
+                          : onSelectElement ? 'hover:outline hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
+                      }`}
+                      style={{
+                        transform: `translate(${cfg.headerDepartmentOffsetX || 0}px, ${cfg.headerDepartmentOffsetY || 0}px)`,
+                        fontSize: cfg.headerDepartmentFontSize ? `${cfg.headerDepartmentFontSize}px` : undefined,
+                      }}
+                    >
+                      {cfg.headerDepartmentKhmer || school.department_name || 'មន្ទីរអប់រំ យុវជន និងកីឡាខេត្តកំពង់ចាម'}
+                      {renderNudgeToolbar('headerDepartment', cfg.headerDepartmentOffsetX || 0, cfg.headerDepartmentOffsetY || 0)}
+                    </p>
+                  </div>
                 )}
 
                 {cfg.showSchoolName && (
-                  <h2
-                    className="font-muol text-[8.5px] leading-tight mt-[1px]"
-                    style={{ color: cfg.primaryColor || '#0c4a6e' }}
-                  >
-                    {school.school_name || 'វិទ្យាល័យ តាំងក្រូច'}
-                  </h2>
+                  <div>
+                    <h2
+                      onClick={(e) => {
+                        if (onSelectElement) {
+                          e.stopPropagation();
+                          onSelectElement('headerSchoolName');
+                        }
+                      }}
+                      onMouseDown={(e) => handleStartDrag(e, 'headerSchoolName', cfg.headerSchoolNameOffsetX || 0, cfg.headerSchoolNameOffsetY || 0)}
+                      onTouchStart={(e) => handleStartDrag(e, 'headerSchoolName', cfg.headerSchoolNameOffsetX || 0, cfg.headerSchoolNameOffsetY || 0)}
+                      className={`font-muol text-[8.5px] leading-tight mt-[1px] inline-block relative transition-all whitespace-nowrap select-none ${
+                        activeHighlightElement === 'headerSchoolName'
+                          ? 'ring-2 ring-blue-500 rounded px-1 bg-blue-50/50 cursor-move z-30'
+                          : onSelectElement ? 'hover:outline hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
+                      }`}
+                      style={{
+                        color: cfg.primaryColor || '#0c4a6e',
+                        transform: `translate(${cfg.headerSchoolNameOffsetX || 0}px, ${cfg.headerSchoolNameOffsetY || 0}px)`,
+                        fontSize: cfg.headerSchoolNameFontSize ? `${cfg.headerSchoolNameFontSize}px` : undefined,
+                      }}
+                    >
+                      {cfg.headerSchoolNameKhmer || school.school_name || 'វិទ្យាល័យ តាំងក្រូច'}
+                      {renderNudgeToolbar('headerSchoolName', cfg.headerSchoolNameOffsetX || 0, cfg.headerSchoolNameOffsetY || 0)}
+                    </h2>
+                  </div>
                 )}
               </div>
             </div>
@@ -1207,18 +1516,8 @@ export const StudentCard: React.FC<StudentCardProps> = ({
             {/* Card Title Banner (Customizable background color, toggle show/hide bg, and font sizing) */}
             {(cfg.showTitleBanner !== false) && (
               <div
-                onClick={(e) => {
-                  if (onSelectElement) {
-                    e.stopPropagation();
-                    onSelectElement('title');
-                  }
-                }}
                 className={`text-center my-1 py-1 px-2 rounded-[2px] transition-all relative ${
                   cfg.showTitleBannerBg !== false ? 'shadow-xs' : ''
-                } ${
-                  activeHighlightElement === 'title'
-                    ? 'ring-2 ring-blue-500 rounded p-1 cursor-pointer z-30'
-                    : onSelectElement ? 'hover:outline-1 hover:outline-dashed hover:outline-blue-400 cursor-pointer' : ''
                 } ${
                   cfg.headerStyle === 'gold-accent' && cfg.showTitleBannerBg !== false
                     ? 'border border-amber-400'
@@ -1235,63 +1534,20 @@ export const StudentCard: React.FC<StudentCardProps> = ({
                   zIndex: cfg.titleZIndex ?? 15,
                 }}
               >
-                {/* On-Card Floating Controls when active */}
-                {activeHighlightElement === 'title' && (onNudgeElement || onUpdateOffset) && (
-                  <div
-                    className="absolute -top-7 left-1/2 -translate-x-1/2 flex items-center gap-0.5 bg-slate-900/95 text-white px-1.5 py-0.5 rounded-md shadow-xl border border-blue-400/60 z-50 pointer-events-auto whitespace-nowrap text-[9px] font-sans"
-                    onClick={(e) => e.stopPropagation()}
-                    onMouseDown={(e) => e.stopPropagation()}
-                  >
-                    <span className="font-mono text-[8px] text-blue-300 px-1">
-                      X:{cfg.titleOffsetX || 0} Y:{cfg.titleOffsetY || 0}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => onNudgeElement ? onNudgeElement('title', -2, 0) : onUpdateOffset?.('title', (cfg.titleOffsetX || 0) - 2, cfg.titleOffsetY || 0)}
-                      className="w-4 h-4 flex items-center justify-center rounded hover:bg-blue-600 text-white font-bold cursor-pointer transition-colors active:scale-90"
-                      title="រំកិលឆ្វេង"
-                    >
-                      ◀
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => onNudgeElement ? onNudgeElement('title', 0, -2) : onUpdateOffset?.('title', cfg.titleOffsetX || 0, (cfg.titleOffsetY || 0) - 2)}
-                      className="w-4 h-4 flex items-center justify-center rounded hover:bg-blue-600 text-white font-bold cursor-pointer transition-colors active:scale-90"
-                      title="រំកិលឡើង"
-                    >
-                      ▲
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => onNudgeElement ? onNudgeElement('title', 0, 2) : onUpdateOffset?.('title', cfg.titleOffsetX || 0, (cfg.titleOffsetY || 0) + 2)}
-                      className="w-4 h-4 flex items-center justify-center rounded hover:bg-blue-600 text-white font-bold cursor-pointer transition-colors active:scale-90"
-                      title="រំកិលចុះ"
-                    >
-                      ▼
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => onNudgeElement ? onNudgeElement('title', 2, 0) : onUpdateOffset?.('title', (cfg.titleOffsetX || 0) + 2, cfg.titleOffsetY || 0)}
-                      className="w-4 h-4 flex items-center justify-center rounded hover:bg-blue-600 text-white font-bold cursor-pointer transition-colors active:scale-90"
-                      title="រំកិលស្តាំ"
-                    >
-                      ▶
-                    </button>
-                    {onResetElement && (
-                      <button
-                        type="button"
-                        onClick={() => onResetElement('title')}
-                        className="px-1 h-4 flex items-center justify-center rounded bg-blue-700/80 hover:bg-blue-500 text-white font-mono text-[7.5px] cursor-pointer ml-0.5 transition-colors"
-                        title="កំណត់ដើម (0, 0)"
-                      >
-                        ↺0
-                      </button>
-                    )}
-                  </div>
-                )}
-
                 <h3
-                  className="font-muol leading-tight transition-transform inline-block"
+                  onClick={(e) => {
+                    if (onSelectElement) {
+                      e.stopPropagation();
+                      onSelectElement('title');
+                    }
+                  }}
+                  onMouseDown={(e) => handleStartDrag(e, 'title', cfg.titleOffsetX || 0, cfg.titleOffsetY || 0)}
+                  onTouchStart={(e) => handleStartDrag(e, 'title', cfg.titleOffsetX || 0, cfg.titleOffsetY || 0)}
+                  className={`font-muol leading-tight transition-all inline-block relative ${
+                    activeHighlightElement === 'title'
+                      ? 'ring-2 ring-blue-400 rounded px-1 cursor-move z-30 select-none'
+                      : onSelectElement ? 'hover:outline hover:outline-dashed hover:outline-blue-300 cursor-pointer' : ''
+                  }`}
                   style={{
                     color: cfg.titleBannerTextColor || cfg.headerTextColor || (cfg.showTitleBannerBg === false ? (cfg.primaryColor || '#075985') : '#fef08a'),
                     fontSize: `${cfg.titleFontSize || 10}px`,
@@ -1299,18 +1555,34 @@ export const StudentCard: React.FC<StudentCardProps> = ({
                   }}
                 >
                   {cfg.headerTitleKhmer || school.card_title || 'ប័ណ្ណសម្គាល់ខ្លួនសិស្ស'}
+                  {renderNudgeToolbar('title', cfg.titleOffsetX || 0, cfg.titleOffsetY || 0)}
                 </h3>
                 {(cfg.showSubtitle !== false) && (
-                  <p
-                    className="font-kantumruy font-medium leading-tight mt-[0.5px] opacity-90 transition-transform"
-                    style={{
-                      color: cfg.showTitleBannerBg === false ? '#4b5563' : '#f3f4f6',
-                      fontSize: `${cfg.subtitleFontSize || 7.6}px`,
-                      transform: `translate(${cfg.subtitleOffsetX || 0}px, ${cfg.subtitleOffsetY || 0}px)`,
-                    }}
-                  >
-                    {cfg.headerSubtitleKhmer || school.academic_year || 'ឆ្នាំសិក្សា ២០២៥-២០២៦'}
-                  </p>
+                  <div className="block">
+                    <p
+                      onClick={(e) => {
+                        if (onSelectElement) {
+                          e.stopPropagation();
+                          onSelectElement('subtitle');
+                        }
+                      }}
+                      onMouseDown={(e) => handleStartDrag(e, 'subtitle', cfg.subtitleOffsetX || 0, cfg.subtitleOffsetY || 0)}
+                      onTouchStart={(e) => handleStartDrag(e, 'subtitle', cfg.subtitleOffsetX || 0, cfg.subtitleOffsetY || 0)}
+                      className={`font-kantumruy font-medium leading-tight mt-[0.5px] opacity-90 transition-all inline-block relative ${
+                        activeHighlightElement === 'subtitle'
+                          ? 'ring-2 ring-blue-400 rounded px-1 bg-blue-500/20 cursor-move z-30 select-none'
+                          : onSelectElement ? 'hover:outline hover:outline-dashed hover:outline-blue-300 cursor-pointer' : ''
+                      }`}
+                      style={{
+                        color: cfg.showTitleBannerBg === false ? '#4b5563' : '#f3f4f6',
+                        fontSize: `${cfg.subtitleFontSize || 7.6}px`,
+                        transform: `translate(${cfg.subtitleOffsetX || 0}px, ${cfg.subtitleOffsetY || 0}px)`,
+                      }}
+                    >
+                      {cfg.headerSubtitleKhmer || school.academic_year || 'ឆ្នាំសិក្សា ២០២៥-២០២៦'}
+                      {renderNudgeToolbar('subtitle', cfg.subtitleOffsetX || 0, cfg.subtitleOffsetY || 0)}
+                    </p>
+                  </div>
                 )}
               </div>
             )}
@@ -1522,7 +1794,7 @@ export const StudentCard: React.FC<StudentCardProps> = ({
                   className="font-mono text-neutral-800 truncate min-w-0"
                   style={{ fontSize: `${baseInfoSize * 0.94}px` }}
                 >
-                  {formatPhoneNumber(student.parent_phone || student.phone_number || student.student_phone) || '—'}
+                  {formatPhoneNumber(student.student_phone || '') || '—'}
                 </span>
               </div>
             )}

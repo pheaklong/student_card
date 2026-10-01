@@ -66,7 +66,6 @@
 
 @media print {
   @page {
-    size: A4 portrait;
     margin: 0 !important;
   }
 
@@ -89,7 +88,7 @@
   }
 
   html, body {
-    width: 210mm !important;
+    width: 100% !important;
     height: auto !important;
     background: #ffffff !important;
     color: #000000 !important;
@@ -99,7 +98,7 @@
   }
 
   #root {
-    width: 210mm !important;
+    width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     background: #ffffff !important;

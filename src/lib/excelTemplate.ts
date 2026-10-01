@@ -11,8 +11,8 @@ export interface SampleStudentRow {
   'បន្ទប់ (Room)': string;
   'ឪពុក (Father Name)': string;
   'ម្ដាយ (Mother Name)': string;
+  'លេខទូរស័ព្ទសិស្ស (Student Phone)': string;
   'លេខទូរស័ព្ទអាណាព្យាបាល (Parent Phone)': string;
-  'លេខទូរស័ព្ទផ្ទាល់ (Personal Phone)': string;
   'រូបថត (Photo or Drive Link)': string;
 }
 
@@ -28,8 +28,8 @@ export const SAMPLE_STUDENT_DATA: SampleStudentRow[] = [
     'បន្ទប់ (Room)': '8',
     'ឪពុក (Father Name)': 'សុខ គឹមហុង',
     'ម្ដាយ (Mother Name)': 'ឡុង ស្រីមុំ',
+    'លេខទូរស័ព្ទសិស្ស (Student Phone)': '098 776 543',
     'លេខទូរស័ព្ទអាណាព្យាបាល (Parent Phone)': '095 858 545',
-    'លេខទូរស័ព្ទផ្ទាល់ (Personal Phone)': '098 776 543',
     'រូបថត (Photo or Drive Link)': 'https://drive.google.com/file/d/1i6TuDtDfbxqa7PsAcyVxZ7c3X25kNRqY/view?usp=drivesdk',
   },
   {
@@ -43,8 +43,8 @@ export const SAMPLE_STUDENT_DATA: SampleStudentRow[] = [
     'បន្ទប់ (Room)': '8',
     'ឪពុក (Father Name)': 'កែវ វិបុល',
     'ម្ដាយ (Mother Name)': 'មាស សុផាត',
+    'លេខទូរស័ព្ទសិស្ស (Student Phone)': '070 334 455',
     'លេខទូរស័ព្ទអាណាព្យាបាល (Parent Phone)': '088 123 456',
-    'លេខទូរស័ព្ទផ្ទាល់ (Personal Phone)': '070 334 455',
     'រូបថត (Photo or Drive Link)': 'ID-5998.jpg',
   },
   {
@@ -58,8 +58,8 @@ export const SAMPLE_STUDENT_DATA: SampleStudentRow[] = [
     'បន្ទប់ (Room)': '5',
     'ឪពុក (Father Name)': 'ជា សុភ័ក្រ្ត',
     'ម្ដាយ (Mother Name)': 'ឃួន វ៉ាន់នី',
+    'លេខទូរស័ព្ទសិស្ស (Student Phone)': '012 332 211',
     'លេខទូរស័ព្ទអាណាព្យាបាល (Parent Phone)': '012 998 877',
-    'លេខទូរស័ព្ទផ្ទាល់ (Personal Phone)': '012 332 211',
     'រូបថត (Photo or Drive Link)': '',
   },
   {
@@ -73,8 +73,8 @@ export const SAMPLE_STUDENT_DATA: SampleStudentRow[] = [
     'បន្ទប់ (Room)': '5',
     'ឪពុក (Father Name)': 'សេង ហេង',
     'ម្ដាយ (Mother Name)': 'លីម គឹមសួរ',
+    'លេខទូរស័ព្ទសិស្ស (Student Phone)': '096 112 233',
     'លេខទូរស័ព្ទអាណាព្យាបាល (Parent Phone)': '097 889 900',
-    'លេខទូរស័ព្ទផ្ទាល់ (Personal Phone)': '096 112 233',
     'រូបថត (Photo or Drive Link)': '',
   },
 ];
@@ -152,13 +152,20 @@ export const INSTRUCTIONS_DATA = [
   },
   {
     'ល.រ (No.)': 11,
-    'ឈ្មោះជួរឈរ (Column)': 'ទូរស័ព្ទ (Phone)',
+    'ឈ្មោះជួរឈរ (Column)': 'លេខទូរស័ព្ទសិស្ស (Student Phone)',
     'ទាមទារ (Required)': 'មិនទាមទារ (Optional)',
-    'ទម្រង់ទិន្នន័យ (Format)': 'ឧ. 095 858 545',
-    'ការពន្យល់ និងការណែនាំ (Guidelines)': 'លេខទូរស័ព្ទទាក់ទងអាណាព្យាបាល ឬសិស្ស។',
+    'ទម្រង់ទិន្នន័យ (Format)': 'ឧ. 098 776 543',
+    'ការពន្យល់ និងការណែនាំ (Guidelines)': 'លេខទូរស័ព្ទផ្ទាល់របស់សិស្ស — សម្រាប់បង្ហាញលើប័ណ្ណសិស្ស (Student ID Card)។',
   },
   {
     'ល.រ (No.)': 12,
+    'ឈ្មោះជួរឈរ (Column)': 'លេខទូរស័ព្ទអាណាព្យាបាល (Parent Phone)',
+    'ទាមទារ (Required)': 'មិនទាមទារ (Optional)',
+    'ទម្រង់ទិន្នន័យ (Format)': 'ឧ. 095 858 545',
+    'ការពន្យល់ និងការណែនាំ (Guidelines)': 'លេខទូរស័ព្ទឪពុកម្ដាយ ឬអាណាព្យាបាល — សម្រាប់បង្ហាញលើ Digital Card សម្រាប់ទំនាក់ទំនងបន្ទាន់ និងការសិក្សា។',
+  },
+  {
+    'ល.រ (No.)': 13,
     'ឈ្មោះជួរឈរ (Column)': 'រូបថត (Photo or Drive Link)',
     'ទាមទារ (Required)': 'មិនទាមទារ (Optional)',
     'ទម្រង់ទិន្នន័យ (Format)': 'Google Drive Link, URL, ឬ ឈ្មោះ File',
@@ -189,7 +196,8 @@ export function downloadStudentImportTemplate() {
     { wch: 14 }, // បន្ទប់ (Room)
     { wch: 20 }, // ឪពុក (Father Name)
     { wch: 20 }, // ម្ដាយ (Mother Name)
-    { wch: 16 }, // ទូរស័ព្ទ (Phone)
+    { wch: 24 }, // លេខទូរស័ព្ទសិស្ស (Student Phone)
+    { wch: 26 }, // លេខទូរស័ព្ទអាណាព្យាបាល (Parent Phone)
     { wch: 55 }, // រូបថត (Photo or Drive Link)
   ];
 
@@ -199,10 +207,10 @@ export function downloadStudentImportTemplate() {
   const wsInstructions = XLSX.utils.json_to_sheet(INSTRUCTIONS_DATA);
   wsInstructions['!cols'] = [
     { wch: 10 }, // No
-    { wch: 26 }, // Column Name
+    { wch: 32 }, // Column Name
     { wch: 20 }, // Required
     { wch: 30 }, // Format
-    { wch: 60 }, // Guidelines
+    { wch: 65 }, // Guidelines
   ];
 
   XLSX.utils.book_append_sheet(wb, wsInstructions, 'ការណែនាំ_Instructions');

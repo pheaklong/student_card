@@ -326,8 +326,8 @@ export async function saveSchoolSettings(settings: SchoolSettings): Promise<bool
 // Helper to normalize raw student row from DB or storage
 export function normalizeStudentFromDb(s: any, idx?: number): Student {
   const student_phone = formatPhoneNumber(s.student_phone);
-  const parent_phone = formatPhoneNumber(s.parent_phone || s.phone_number);
-  const phone_number = parent_phone || student_phone;
+  const parent_phone = formatPhoneNumber(s.parent_phone);
+  const phone_number = student_phone || parent_phone || formatPhoneNumber(s.phone_number);
   return {
     ...s,
     dob: formatKhmerDob(s.dob, 'digits'),
@@ -574,8 +574,8 @@ export async function fetchStudents(preferredSource: 'supabase' | 'local' | 'aut
 // Helper to strip non-core columns if remote database table has an older schema
 function getCoreStudentPayload(student: Student) {
   const student_phone = formatPhoneNumber(student.student_phone);
-  const parent_phone = formatPhoneNumber(student.parent_phone || student.phone_number);
-  const phone_number = parent_phone || student_phone;
+  const parent_phone = formatPhoneNumber(student.parent_phone);
+  const phone_number = student_phone || parent_phone || formatPhoneNumber(student.phone_number);
 
   const payload: any = {
     student_id: String(student.student_id).trim(),
@@ -600,8 +600,8 @@ function getCoreStudentPayload(student: Student) {
 
 export async function saveStudent(student: Student): Promise<boolean> {
   const student_phone = formatPhoneNumber(student.student_phone);
-  const parent_phone = formatPhoneNumber(student.parent_phone || student.phone_number);
-  const phone_number = parent_phone || student_phone;
+  const parent_phone = formatPhoneNumber(student.parent_phone);
+  const phone_number = student_phone || parent_phone || formatPhoneNumber(student.phone_number);
 
   const normalizedStudent: Student = {
     ...student,

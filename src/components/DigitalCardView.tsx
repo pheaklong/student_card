@@ -226,8 +226,8 @@ export const DigitalCardView: React.FC<DigitalCardViewProps> = ({
     );
   }
 
-  const parentPhone = formatPhoneNumber(selectedStudent.parent_phone || selectedStudent.phone_number);
-  const studentPhone = formatPhoneNumber(selectedStudent.student_phone);
+  const studentPhone = formatPhoneNumber(selectedStudent.student_phone || '');
+  const parentPhone = formatPhoneNumber(selectedStudent.parent_phone || '');
   const cleanedParentPhone = cleanPhone(parentPhone);
   const cleanedStudentPhone = cleanPhone(studentPhone);
 
