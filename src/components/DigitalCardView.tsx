@@ -66,7 +66,7 @@ export const DigitalCardView: React.FC<DigitalCardViewProps> = ({
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(defaultStudent);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [activeTab, setActiveTab] = useState<'physical' | 'profile' | 'qr'>('physical');
+  const [activeTab, setActiveTab] = useState<'profile' | 'physical' | 'qr'>('profile');
   const [physicalCardSide, setPhysicalCardSide] = useState<'front' | 'back'>('front');
   const [copiedLink, setCopiedLink] = useState(false);
   const [copiedParentPhone, setCopiedParentPhone] = useState(false);
@@ -397,22 +397,9 @@ export const DigitalCardView: React.FC<DigitalCardViewProps> = ({
         )}
       </div>
 
-      {/* Tabs: Official Card vs Detailed Profile vs QR Verification */}
+      {/* Tabs: 1. Detailed Profile (ឆ្វេង), 2. Official Card (កណ្ដាល), 3. QR Verification (ស្ដាំ) */}
       <div className="flex items-center justify-center">
         <div className="inline-flex bg-neutral-100 p-1 rounded-xl border border-neutral-200 text-xs shadow-2xs font-semibold">
-          <button
-            type="button"
-            onClick={() => setActiveTab('physical')}
-            className={`flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-lg transition-all cursor-pointer ${
-              activeTab === 'physical'
-                ? 'bg-blue-600 text-white shadow-xs font-bold'
-                : 'text-neutral-600 hover:text-neutral-900'
-            }`}
-          >
-            <CreditCard className="w-4 h-4" />
-            <span>ប័ណ្ណផ្លូវការ (Official Card)</span>
-          </button>
-
           <button
             type="button"
             onClick={() => setActiveTab('profile')}
@@ -424,6 +411,19 @@ export const DigitalCardView: React.FC<DigitalCardViewProps> = ({
           >
             <Smartphone className="w-4 h-4" />
             <span>ព័ត៌មានលម្អិត (Full Profile)</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab('physical')}
+            className={`flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-lg transition-all cursor-pointer ${
+              activeTab === 'physical'
+                ? 'bg-blue-600 text-white shadow-xs font-bold'
+                : 'text-neutral-600 hover:text-neutral-900'
+            }`}
+          >
+            <CreditCard className="w-4 h-4" />
+            <span>ប័ណ្ណផ្លូវការ (Official Card)</span>
           </button>
 
           <button
