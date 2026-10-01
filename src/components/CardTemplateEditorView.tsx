@@ -658,21 +658,22 @@ export const CardTemplateEditorView: React.FC<CardTemplateEditorViewProps> = ({
           <button
             onClick={handleSave}
             disabled={isSaving}
-            className={`inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-bold rounded-lg shadow-xs transition-colors ${
+            title="រក្សាទុក និងកំណត់គំរូនេះជា Default សម្រាប់គ្រប់ឧបករណ៍ (ទូរស័ព្ទ ថេប្លេត កុំព្យូទ័រ) ពេលស្កេន QR Code"
+            className={`inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-bold rounded-lg shadow-xs transition-all cursor-pointer ${
               saveSuccess
-                ? 'bg-emerald-600 text-white'
-                : 'bg-blue-600 hover:bg-blue-700 text-white'
+                ? 'bg-emerald-600 text-white shadow-emerald-200'
+                : 'bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-blue-200 active:scale-95'
             }`}
           >
             {saveSuccess ? (
               <>
                 <Check className="w-4 h-4 text-emerald-200" />
-                <span>បានរក្សាទុក!</span>
+                <span>បានកំណត់ជា Default គ្រប់ឧបករណ៍!</span>
               </>
             ) : (
               <>
-                <Save className="w-4 h-4 text-amber-200" />
-                <span>{isSaving ? 'កំពុងរក្សាទុក...' : 'រក្សាទុកគំរូ'}</span>
+                <Sparkles className="w-4 h-4 text-amber-200" />
+                <span>{isSaving ? 'កំពុងកំណត់...' : 'កំណត់ជា Default គ្រប់ឧបករណ៍'}</span>
               </>
             )}
           </button>

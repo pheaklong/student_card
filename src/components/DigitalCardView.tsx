@@ -24,6 +24,7 @@ import {
   PhoneCall,
   RotateCw,
   UserCheck,
+  ChevronRight,
 } from 'lucide-react';
 import { Student, SchoolSettings, CardTemplateConfig } from '../types';
 import { StudentCard } from './StudentCard';
@@ -65,7 +66,7 @@ export const DigitalCardView: React.FC<DigitalCardViewProps> = ({
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(defaultStudent);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [activeTab, setActiveTab] = useState<'profile' | 'physical' | 'qr'>('profile');
+  const [activeTab, setActiveTab] = useState<'physical' | 'profile' | 'qr'>('physical');
   const [physicalCardSide, setPhysicalCardSide] = useState<'front' | 'back'>('front');
   const [copiedLink, setCopiedLink] = useState(false);
   const [copiedParentPhone, setCopiedParentPhone] = useState(false);
@@ -131,7 +132,39 @@ export const DigitalCardView: React.FC<DigitalCardViewProps> = ({
     setTimeout(() => setCopiedStudentPhone(false), 2500);
   };
 
-  const [cardScale, setCardScale] = useState<number>(1);
+  const [scaleMode, setScaleMode] = useState<'auto' | '100' | '85'>('auto');
+  const cardContainerRef = React.useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(360);
+
+  React.useEffect(() => {
+    const updateSize = () => {
+      if (cardContainerRef.current) {
+        setContainerWidth(cardContainerRef.current.clientWidth);
+      } else if (typeof window !== 'undefined') {
+        setContainerWidth(Math.min(window.innerWidth - 32, 600));
+      }
+    };
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
+  const effectiveTemplate = useMemo(() => {
+    return getEffectiveTemplateConfig(school.template_config);
+  }, [school.template_config]);
+
+  const isLandscape = effectiveTemplate.orientation === 'landscape';
+  const cardWidthMm = effectiveTemplate.cardWidthMm || (isLandscape ? 128 : 92);
+  const cardHeightMm = effectiveTemplate.cardHeightMm || (isLandscape ? 92 : 128);
+  const cardWidthPx = cardWidthMm * 3.779528;
+  const cardHeightPx = cardHeightMm * 3.779528;
+
+  const autoScale = useMemo(() => {
+    const avail = Math.max(260, containerWidth - 16);
+    return Math.min(1, parseFloat((avail / cardWidthPx).toFixed(3)));
+  }, [containerWidth, cardWidthPx]);
+
+  const effectiveCardScale = scaleMode === 'auto' ? autoScale : scaleMode === '85' ? 0.85 : 1;
 
   const handleShare = async () => {
     if (typeof navigator !== 'undefined' && navigator.share && publicCardUrl) {
@@ -364,46 +397,46 @@ export const DigitalCardView: React.FC<DigitalCardViewProps> = ({
         )}
       </div>
 
-      {/* Tabs: Digital Profile vs Physical Card 3D vs QR Verification */}
+      {/* Tabs: Official Card vs Detailed Profile vs QR Verification */}
       <div className="flex items-center justify-center">
         <div className="inline-flex bg-neutral-100 p-1 rounded-xl border border-neutral-200 text-xs shadow-2xs font-semibold">
           <button
             type="button"
-            onClick={() => setActiveTab('profile')}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-lg transition-all ${
-              activeTab === 'profile'
-                ? 'bg-white text-blue-700 shadow-xs'
-                : 'text-neutral-600 hover:text-neutral-900'
-            }`}
-          >
-            <Smartphone className="w-4 h-4" />
-            <span>ព័ត៌មានឌីជីថល (Digital Card)</span>
-          </button>
-
-          <button
-            type="button"
             onClick={() => setActiveTab('physical')}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-lg transition-all ${
+            className={`flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-lg transition-all cursor-pointer ${
               activeTab === 'physical'
-                ? 'bg-white text-blue-700 shadow-xs'
+                ? 'bg-blue-600 text-white shadow-xs font-bold'
                 : 'text-neutral-600 hover:text-neutral-900'
             }`}
           >
             <CreditCard className="w-4 h-4" />
-            <span>គំរូប័ណ្ណបោះពុម្ព (Card Preview)</span>
+            <span>ប័ណ្ណផ្លូវការ (Official Card)</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab('profile')}
+            className={`flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-lg transition-all cursor-pointer ${
+              activeTab === 'profile'
+                ? 'bg-blue-600 text-white shadow-xs font-bold'
+                : 'text-neutral-600 hover:text-neutral-900'
+            }`}
+          >
+            <Smartphone className="w-4 h-4" />
+            <span>ព័ត៌មានលម្អិត (Full Profile)</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('qr')}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-lg transition-all ${
+            className={`flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-lg transition-all cursor-pointer ${
               activeTab === 'qr'
-                ? 'bg-white text-blue-700 shadow-xs'
+                ? 'bg-blue-600 text-white shadow-xs font-bold'
                 : 'text-neutral-600 hover:text-neutral-900'
             }`}
           >
             <QrCode className="w-4 h-4" />
-            <span>ស្កេន QR Code</span>
+            <span>ស្កេន QR</span>
           </button>
         </div>
       </div>
@@ -715,11 +748,11 @@ export const DigitalCardView: React.FC<DigitalCardViewProps> = ({
         </div>
       )}
 
-      {/* TAB 2: Physical Printed Card 3D Preview (Front & Back) */}
+      {/* TAB 2: Official Card View with Auto-Responsive Scale & Contact Info */}
       {activeTab === 'physical' && (
-        <div className="bg-white border border-neutral-200 rounded-3xl p-4 sm:p-8 shadow-md flex flex-col items-center">
+        <div className="bg-white border border-neutral-200/90 rounded-3xl p-4 sm:p-7 shadow-xl flex flex-col items-center">
           {/* Controls Bar: Side Toggle, Flip Button, and Scale Presets */}
-          <div className="flex flex-wrap items-center justify-between gap-3 w-full max-w-xl mb-6 pb-4 border-b border-neutral-100">
+          <div className="flex flex-wrap items-center justify-between gap-3 w-full max-w-xl mb-4 pb-3 border-b border-neutral-100">
             <div className="flex items-center gap-2">
               <span className="text-xs text-neutral-500 font-medium hidden sm:inline">ផ្ទៃប័ណ្ណ៖</span>
               <div className="inline-flex bg-neutral-100 p-1 rounded-xl border border-neutral-200 text-xs font-semibold">
@@ -728,7 +761,7 @@ export const DigitalCardView: React.FC<DigitalCardViewProps> = ({
                   onClick={() => setPhysicalCardSide('front')}
                   className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
                     physicalCardSide === 'front'
-                      ? 'bg-white text-blue-700 shadow-xs'
+                      ? 'bg-white text-blue-700 shadow-xs font-bold'
                       : 'text-neutral-600 hover:text-neutral-900'
                   }`}
                 >
@@ -739,7 +772,7 @@ export const DigitalCardView: React.FC<DigitalCardViewProps> = ({
                   onClick={() => setPhysicalCardSide('back')}
                   className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
                     physicalCardSide === 'back'
-                      ? 'bg-white text-blue-700 shadow-xs'
+                      ? 'bg-white text-blue-700 shadow-xs font-bold'
                       : 'text-neutral-600 hover:text-neutral-900'
                   }`}
                 >
@@ -762,15 +795,23 @@ export const DigitalCardView: React.FC<DigitalCardViewProps> = ({
               <div className="inline-flex bg-neutral-100 p-1 rounded-lg border border-neutral-200 text-[11px] font-mono font-bold">
                 <button
                   type="button"
-                  onClick={() => setCardScale(0.85)}
-                  className={`px-2 py-0.5 rounded-md transition-colors cursor-pointer ${cardScale === 0.85 ? 'bg-white text-blue-700 shadow-2xs' : 'text-neutral-500'}`}
+                  onClick={() => setScaleMode('auto')}
+                  className={`px-2 py-0.5 rounded-md transition-colors cursor-pointer ${scaleMode === 'auto' ? 'bg-white text-blue-700 shadow-2xs font-bold' : 'text-neutral-500'}`}
+                  title="ពង្រីក/បង្រួមសមស្របតាមទូរស័ព្ទស្វ័យប្រវត្តិ"
+                >
+                  Auto
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setScaleMode('85')}
+                  className={`px-2 py-0.5 rounded-md transition-colors cursor-pointer ${scaleMode === '85' ? 'bg-white text-blue-700 shadow-2xs font-bold' : 'text-neutral-500'}`}
                 >
                   85%
                 </button>
                 <button
                   type="button"
-                  onClick={() => setCardScale(1)}
-                  className={`px-2 py-0.5 rounded-md transition-colors cursor-pointer ${cardScale === 1 ? 'bg-white text-blue-700 shadow-2xs' : 'text-neutral-500'}`}
+                  onClick={() => setScaleMode('100')}
+                  className={`px-2 py-0.5 rounded-md transition-colors cursor-pointer ${scaleMode === '100' ? 'bg-white text-blue-700 shadow-2xs font-bold' : 'text-neutral-500'}`}
                 >
                   100%
                 </button>
@@ -778,29 +819,155 @@ export const DigitalCardView: React.FC<DigitalCardViewProps> = ({
             </div>
           </div>
 
-          {/* Actual Card Render with Responsive Overflow Container & Scale */}
-          <div className="w-full flex justify-center items-center overflow-x-auto py-3 px-1 scrollbar-thin">
+          {/* Actual Card Render with Dynamic Responsive Auto-Fit (No overflow, Fits Phone 100%) */}
+          <div ref={cardContainerRef} className="w-full flex flex-col items-center justify-center py-2 px-1">
             <div
-              className="border border-neutral-300 rounded-2xl overflow-hidden shadow-2xl p-2 bg-neutral-100/90 transition-all duration-300"
+              className="relative rounded-2xl overflow-hidden shadow-2xl border border-neutral-300 bg-white transition-all duration-300"
               style={{
-                transform: cardScale !== 1 ? `scale(${cardScale})` : undefined,
-                transformOrigin: 'top center',
+                width: `${Math.round(cardWidthPx * effectiveCardScale)}px`,
+                height: `${Math.round(cardHeightPx * effectiveCardScale)}px`,
               }}
             >
-              <StudentCard
-                student={selectedStudent}
-                school={school}
-                template={getEffectiveTemplateConfig(school.template_config)}
-                showCutLines={true}
-                borderStyle="solid"
-                showBackSide={physicalCardSide === 'back'}
-              />
+              <div
+                style={{
+                  width: `${cardWidthPx}px`,
+                  height: `${cardHeightPx}px`,
+                  transform: `scale(${effectiveCardScale})`,
+                  transformOrigin: 'top left',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                }}
+              >
+                <StudentCard
+                  student={selectedStudent}
+                  school={school}
+                  template={effectiveTemplate}
+                  showCutLines={true}
+                  borderStyle="solid"
+                  showBackSide={physicalCardSide === 'back'}
+                />
+              </div>
             </div>
+            <p className="text-[11px] text-neutral-400 mt-3 text-center">
+              ទម្រង់ប័ណ្ណផ្លូវការ ({physicalCardSide === 'front' ? 'ផ្ទៃខាងមុខ' : 'ផ្ទៃខាងក្រោយ - បទបញ្ជាផ្ទៃក្នុង'}) · {Math.round(effectiveCardScale * 100)}% Auto-fit
+            </p>
           </div>
 
-          <p className="text-xs text-neutral-400 mt-4 text-center">
-            នេះជាគំរូប័ណ្ណពិតប្រាកដដែលនឹងត្រូវបោះពុម្ពចេញជាផ្លូវការលើក្រដាស A4 ឬកាត PVC ({physicalCardSide === 'front' ? 'ផ្ទៃខាងមុខ' : 'ផ្ទៃខាងក្រោយ - បទបញ្ជាផ្ទៃក្នុង'})
-          </p>
+          {/* 🌟 Direct Essential Contact & Verification Section below Card 🌟 */}
+          <div className="w-full max-w-xl mt-6 pt-5 border-t border-neutral-200/80 space-y-3.5">
+            {/* 1. Parent Phone Card */}
+            <div className="relative overflow-hidden rounded-2xl bg-linear-to-r from-emerald-500/10 via-teal-500/5 to-emerald-500/10 border-2 border-emerald-500/30 p-4 sm:p-5 shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs shrink-0">
+                    <Phone className="w-5 h-5 animate-pulse" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider block">
+                      លេខទូរស័ព្ទអាណាព្យាបាល (Parent Phone)
+                    </span>
+                    <span className="text-base sm:text-lg font-bold font-mono text-neutral-900">
+                      {parentPhone || 'មិនមានលេខទូរស័ព្ទ'}
+                    </span>
+                    {(selectedStudent.father_name || selectedStudent.mother_name) && (
+                      <p className="text-[11px] text-neutral-600 mt-0.5">
+                        អាណាព្យាបាល៖ {[selectedStudent.father_name && `ឪពុក: ${selectedStudent.father_name}`, selectedStudent.mother_name && `ម្ដាយ: ${selectedStudent.mother_name}`].filter(Boolean).join(' · ')}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                  {cleanedParentPhone && (
+                    <a
+                      href={`tel:${cleanedParentPhone}`}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer active:scale-95"
+                    >
+                      <PhoneCall className="w-3.5 h-3.5" />
+                      <span>ខលភ្លាមៗ</span>
+                    </a>
+                  )}
+                  {parentPhone && (
+                    <button
+                      type="button"
+                      onClick={() => handleCopyParentPhone(parentPhone)}
+                      className="inline-flex items-center gap-1 px-3 py-2 bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-300 rounded-xl text-xs font-semibold transition-colors cursor-pointer"
+                    >
+                      {copiedParentPhone ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                      <span>{copiedParentPhone ? 'បានចម្លង' : 'ចម្លងលេខ'}</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Student Phone Card */}
+            {studentPhone && (
+              <div className="rounded-2xl bg-sky-50/70 border border-sky-200/80 p-3.5 sm:p-4 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center shrink-0">
+                    <Smartphone className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-sky-800 font-bold block">លេខទូរស័ព្ទផ្ទាល់របស់សិស្ស</span>
+                    <span className="text-sm font-bold font-mono text-neutral-900">{studentPhone}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  {cleanedStudentPhone && (
+                    <a
+                      href={`tel:${cleanedStudentPhone}`}
+                      className="inline-flex items-center gap-1 px-3 py-1.5 bg-sky-600 hover:bg-sky-700 text-white rounded-lg text-xs font-semibold transition-colors shadow-2xs"
+                    >
+                      <PhoneCall className="w-3 h-3" />
+                      <span>ខល</span>
+                    </a>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => handleCopyStudentPhone(studentPhone)}
+                    className="p-1.5 bg-white hover:bg-sky-100 text-sky-700 border border-sky-300 rounded-lg text-xs transition-colors cursor-pointer"
+                    title="ចម្លងលេខទូរស័ព្ទសិស្ស"
+                  >
+                    {copiedStudentPhone ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Quick Student Summary Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs pt-1">
+              <div className="bg-neutral-50 p-2.5 rounded-xl border border-neutral-200/70">
+                <span className="text-[10px] text-neutral-400 block">អត្តលេខ (ID)</span>
+                <span className="font-mono font-bold text-blue-900">{selectedStudent.student_id}</span>
+              </div>
+              <div className="bg-neutral-50 p-2.5 rounded-xl border border-neutral-200/70">
+                <span className="text-[10px] text-neutral-400 block">ថ្នាក់/បន្ទប់</span>
+                <span className="font-bold text-neutral-800">ថ្នាក់ {selectedStudent.grade}</span>
+              </div>
+              <div className="bg-neutral-50 p-2.5 rounded-xl border border-neutral-200/70">
+                <span className="text-[10px] text-neutral-400 block">ភេទ</span>
+                <span className="font-bold text-neutral-800">{selectedStudent.gender}</span>
+              </div>
+              <div className="bg-neutral-50 p-2.5 rounded-xl border border-neutral-200/70">
+                <span className="text-[10px] text-neutral-400 block">ថ្ងៃខែឆ្នាំកំណើត</span>
+                <span className="font-semibold text-neutral-800">{formatKhmerDob(selectedStudent.dob, 'digits') || selectedStudent.dob}</span>
+              </div>
+            </div>
+
+            {/* Action button to switch to Full Profile */}
+            <div className="text-center pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveTab('profile')}
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-xl transition-colors cursor-pointer"
+              >
+                <span>មើលព័ត៌មានលម្អិតទាំងអស់របស់សិស្ស</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

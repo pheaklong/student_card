@@ -238,6 +238,34 @@ export async function fetchSchoolSettings(): Promise<SchoolSettings> {
         .single();
 
       if (!error && data) {
+        let remoteConfig = data.template_config;
+
+        // If template_config column was missing or null in database table,
+        // fetch template_config.json from Supabase Storage 'school-assets' bucket
+        if (!remoteConfig) {
+          try {
+            const { data: fileData, error: fileErr } = await client.storage
+              .from('school-assets')
+              .download('template_config.json');
+            if (!fileErr && fileData) {
+              const text = await fileData.text();
+              const parsed = JSON.parse(text);
+              if (parsed && typeof parsed === 'object') {
+                remoteConfig = parsed;
+              }
+            } else {
+              // Direct HTTP fetch fallback
+              const publicUrl = `${client.storage.from('school-assets').getPublicUrl('template_config.json').data.publicUrl}?t=${Date.now()}`;
+              const resp = await fetch(publicUrl);
+              if (resp.ok) {
+                remoteConfig = await resp.json();
+              }
+            }
+          } catch (storageErr) {
+            console.warn('Storage template_config fetch fallback note:', storageErr);
+          }
+        }
+
         // Retrieve local template_config if remote table did not have that column
         let localConfig = DEFAULT_SCHOOL_SETTINGS.template_config;
         try {
@@ -251,7 +279,7 @@ export async function fetchSchoolSettings(): Promise<SchoolSettings> {
         const merged: SchoolSettings = {
           ...DEFAULT_SCHOOL_SETTINGS,
           ...data,
-          template_config: data.template_config || localConfig,
+          template_config: remoteConfig || localConfig,
         };
         localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(merged));
         return merged;
@@ -289,6 +317,22 @@ export async function saveSchoolSettings(settings: SchoolSettings): Promise<bool
   const client = getSupabaseClient();
   if (client) {
     try {
+      // 1. Sync template_config to Supabase Storage 'school-assets/template_config.json'
+      // This ensures 100% of devices (mobile phones scanning QR, etc.) get the customized template!
+      if (settings.template_config) {
+        try {
+          const jsonStr = JSON.stringify(settings.template_config, null, 2);
+          const blob = new Blob([jsonStr], { type: 'application/json' });
+          await client.storage.from('school-assets').upload('template_config.json', blob, {
+            upsert: true,
+            contentType: 'application/json',
+          });
+        } catch (storageErr) {
+          console.warn('Could not sync template_config to Supabase storage:', storageErr);
+        }
+      }
+
+      // 2. Sync to school_settings table
       const payload: any = {
         ...settings,
         updated_at: new Date().toISOString(),
